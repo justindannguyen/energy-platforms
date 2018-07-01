@@ -1,0 +1,33 @@
+{
+	"baudRate": 9600,
+	"dataBits": 8,
+	"stopBits": 1,
+	"serialPort": "COM6",
+	"parity": "EVEN",
+	"brokerUrl": "tcp://14.161.34.137:1883",
+	"brokerUsername": null,
+	"brokerPassword": null,
+	"energyReportInterval": 60,
+	"deviceStatusReportInterval": 86400,
+	"gatewayId": "AA-BB-CC-DD-EE-FF-GG",
+	"meterConfigurations": [
+		{
+			"meterId": 1,
+			"meterName": "PM2xxx",
+			"energyReportRegisters": [
+				{
+					"registerId": 1,
+					"offset": 3053,
+					"quantity": 24
+				},
+				{
+					"registerId": 2,
+					"offset": 3199,
+					"quantity": 52
+				}
+			],
+			"deviceStatusReportRegisters": []
+		}
+	],
+	"schemaVersion" : "1.0"
+}
