@@ -5,3 +5,4 @@
 target/
 *.lck
 energy-reader-log/
+gateway/energy-reader/log/

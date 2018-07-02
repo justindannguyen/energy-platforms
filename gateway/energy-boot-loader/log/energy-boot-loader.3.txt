@@ -1,0 +1,206 @@
+2018-07-03 01:51:07 [MQTT Rec: AA-BB-CC-DD-EE-FF-GG] com.justin.energy.common.WebsocketOverMqttClient.connectionLost()
+ERROR: Connection lost with broker, detail Connection lost
+2018-07-03 01:51:07 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 1 seconds. Detail: Connection lost
+2018-07-03 01:51:07 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 1 seconds. Detail: Client is not connected
+2018-07-03 01:51:07 [MQTT Rec: AA-BB-CC-DD-EE-FF-GG] com.justin.energy.common.WebsocketOverMqttClient.connectionLost()
+ERROR: Connection lost with broker, detail Connection lost
+2018-07-03 01:51:07 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 1 seconds. Detail: Connection lost
+2018-07-03 01:51:07 [MQTT Rec: AA-BB-CC-DD-EE-FF-GG] com.justin.energy.common.WebsocketOverMqttClient.connectionLost()
+ERROR: Connection lost with broker, detail Connection lost
+2018-07-03 01:51:07 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 1 seconds. Detail: Connection lost
+2018-07-03 01:51:07 [MQTT Rec: AA-BB-CC-DD-EE-FF-GG] com.justin.energy.common.WebsocketOverMqttClient.connectionLost()
+ERROR: Connection lost with broker, detail Connection lost
+2018-07-03 01:51:08 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 1 seconds. Detail: Client is not connected
+2018-07-03 01:51:08 [MQTT Rec: AA-BB-CC-DD-EE-FF-GG] com.justin.energy.common.WebsocketOverMqttClient.connectionLost()
+ERROR: Connection lost with broker, detail Connection lost
+2018-07-03 01:51:08 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 1 seconds. Detail: Connection lost
+2018-07-03 01:51:08 [MQTT Rec: AA-BB-CC-DD-EE-FF-GG] com.justin.energy.common.WebsocketOverMqttClient.connectionLost()
+ERROR: Connection lost with broker, detail Connection lost
+2018-07-03 01:51:08 [MQTT Rec: AA-BB-CC-DD-EE-FF-GG] com.justin.energy.common.WebsocketOverMqttClient.connectionLost()
+ERROR: Connection lost with broker, detail Connection lost
+2018-07-03 01:51:08 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 1 seconds. Detail: Connection lost
+2018-07-03 01:51:08 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 1 seconds. Detail: Connection lost
+2018-07-03 01:51:08 [MQTT Rec: AA-BB-CC-DD-EE-FF-GG] com.justin.energy.common.WebsocketOverMqttClient.connectionLost()
+ERROR: Connection lost with broker, detail Connection lost
+2018-07-03 01:51:08 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 1 seconds. Detail: Connection lost
+2018-07-03 01:51:08 [MQTT Rec: AA-BB-CC-DD-EE-FF-GG] com.justin.energy.common.WebsocketOverMqttClient.connectionLost()
+ERROR: Connection lost with broker, detail Connection lost
+2018-07-03 01:51:08 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 2 seconds. Detail: Connect already in progress
+2018-07-03 01:51:08 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 1 seconds. Detail: Client is not connected
+2018-07-03 01:51:08 [MQTT Rec: AA-BB-CC-DD-EE-FF-GG] com.justin.energy.common.WebsocketOverMqttClient.connectionLost()
+ERROR: Connection lost with broker, detail Connection lost
+2018-07-03 01:51:08 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 2 seconds. Detail: Connect already in progress
+2018-07-03 01:51:08 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 1 seconds. Detail: Connection lost
+2018-07-03 01:51:08 [MQTT Rec: AA-BB-CC-DD-EE-FF-GG] com.justin.energy.common.WebsocketOverMqttClient.connectionLost()
+ERROR: Connection lost with broker, detail Connection lost
+2018-07-03 01:51:08 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 2 seconds. Detail: Connect already in progress
+2018-07-03 01:51:08 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 1 seconds. Detail: Connection lost
+2018-07-03 01:51:08 [MQTT Rec: AA-BB-CC-DD-EE-FF-GG] com.justin.energy.common.WebsocketOverMqttClient.connectionLost()
+ERROR: Connection lost with broker, detail Connection lost
+2018-07-03 01:51:08 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 2 seconds. Detail: Connect already in progress
+2018-07-03 01:51:09 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 1 seconds. Detail: Connection lost
+2018-07-03 01:51:09 [MQTT Rec: AA-BB-CC-DD-EE-FF-GG] com.justin.energy.common.WebsocketOverMqttClient.connectionLost()
+ERROR: Connection lost with broker, detail Connection lost
+2018-07-03 01:51:09 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 2 seconds. Detail: Connect already in progress
+2018-07-03 01:51:09 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 1 seconds. Detail: Client is not connected
+2018-07-03 01:51:09 [MQTT Rec: AA-BB-CC-DD-EE-FF-GG] com.justin.energy.common.WebsocketOverMqttClient.connectionLost()
+ERROR: Connection lost with broker, detail Connection lost
+2018-07-03 01:51:09 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 2 seconds. Detail: Connect already in progress
+2018-07-03 01:51:09 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 1 seconds. Detail: Connection lost
+2018-07-03 01:51:09 [MQTT Rec: AA-BB-CC-DD-EE-FF-GG] com.justin.energy.common.WebsocketOverMqttClient.connectionLost()
+ERROR: Connection lost with broker, detail Connection lost
+2018-07-03 01:51:09 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 2 seconds. Detail: Connect already in progress
+2018-07-03 01:51:09 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 1 seconds. Detail: Connection lost
+2018-07-03 01:51:09 [MQTT Rec: AA-BB-CC-DD-EE-FF-GG] com.justin.energy.common.WebsocketOverMqttClient.connectionLost()
+ERROR: Connection lost with broker, detail Connection lost
+2018-07-03 01:51:09 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 2 seconds. Detail: Connect already in progress
+2018-07-03 01:51:09 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 1 seconds. Detail: Connection lost
+2018-07-03 01:51:09 [MQTT Rec: AA-BB-CC-DD-EE-FF-GG] com.justin.energy.common.WebsocketOverMqttClient.connectionLost()
+ERROR: Connection lost with broker, detail Connection lost
+2018-07-03 01:51:09 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 2 seconds. Detail: Connect already in progress
+2018-07-03 01:51:09 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 1 seconds. Detail: Connection lost
+2018-07-03 01:51:09 [MQTT Rec: AA-BB-CC-DD-EE-FF-GG] com.justin.energy.common.WebsocketOverMqttClient.connectionLost()
+ERROR: Connection lost with broker, detail Connection lost
+2018-07-03 01:51:09 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 2 seconds. Detail: Connect already in progress
+2018-07-03 01:51:09 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 1 seconds. Detail: Connection lost
+2018-07-03 01:51:09 [MQTT Rec: AA-BB-CC-DD-EE-FF-GG] com.justin.energy.common.WebsocketOverMqttClient.connectionLost()
+ERROR: Connection lost with broker, detail Connection lost
+2018-07-03 01:51:09 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 2 seconds. Detail: Connect already in progress
+2018-07-03 01:51:09 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 1 seconds. Detail: Connection lost
+2018-07-03 01:51:09 [MQTT Rec: AA-BB-CC-DD-EE-FF-GG] com.justin.energy.common.WebsocketOverMqttClient.connectionLost()
+ERROR: Connection lost with broker, detail Connection lost
+2018-07-03 01:51:10 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 2 seconds. Detail: Connect already in progress
+2018-07-03 01:51:10 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 1 seconds. Detail: Connection lost
+2018-07-03 01:51:10 [MQTT Rec: AA-BB-CC-DD-EE-FF-GG] com.justin.energy.common.WebsocketOverMqttClient.connectionLost()
+ERROR: Connection lost with broker, detail Connection lost
+2018-07-03 01:51:10 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 2 seconds. Detail: Connect already in progress
+2018-07-03 01:51:10 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 1 seconds. Detail: Connection lost
+2018-07-03 01:51:10 [MQTT Rec: AA-BB-CC-DD-EE-FF-GG] com.justin.energy.common.WebsocketOverMqttClient.connectionLost()
+ERROR: Connection lost with broker, detail Connection lost
+2018-07-03 01:51:10 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 1 seconds. Detail: Connection lost
+2018-07-03 01:51:10 [MQTT Rec: AA-BB-CC-DD-EE-FF-GG] com.justin.energy.common.WebsocketOverMqttClient.connectionLost()
+ERROR: Connection lost with broker, detail Connection lost
+2018-07-03 01:51:10 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 1 seconds. Detail: Connection lost
+2018-07-03 01:51:10 [MQTT Rec: AA-BB-CC-DD-EE-FF-GG] com.justin.energy.common.WebsocketOverMqttClient.connectionLost()
+ERROR: Connection lost with broker, detail Connection lost
+2018-07-03 01:51:10 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 2 seconds. Detail: Connect already in progress
+2018-07-03 01:51:10 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 1 seconds. Detail: Connection lost
+2018-07-03 01:51:10 [MQTT Rec: AA-BB-CC-DD-EE-FF-GG] com.justin.energy.common.WebsocketOverMqttClient.connectionLost()
+ERROR: Connection lost with broker, detail Connection lost
+2018-07-03 01:51:10 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 3 seconds. Detail: Connect already in progress
+2018-07-03 01:51:10 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 1 seconds. Detail: Connection lost
+2018-07-03 01:51:10 [MQTT Rec: AA-BB-CC-DD-EE-FF-GG] com.justin.energy.common.WebsocketOverMqttClient.connectionLost()
+ERROR: Connection lost with broker, detail Connection lost
+2018-07-03 01:51:10 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 2 seconds. Detail: Connect already in progress
+2018-07-03 01:51:10 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 3 seconds. Detail: Connect already in progress
+2018-07-03 01:51:10 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 1 seconds. Detail: Connection lost
+2018-07-03 01:51:10 [MQTT Rec: AA-BB-CC-DD-EE-FF-GG] com.justin.energy.common.WebsocketOverMqttClient.connectionLost()
+ERROR: Connection lost with broker, detail Connection lost
+2018-07-03 01:51:10 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 3 seconds. Detail: Connect already in progress
+2018-07-03 01:51:10 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 1 seconds. Detail: Connection lost
+2018-07-03 01:51:10 [MQTT Rec: AA-BB-CC-DD-EE-FF-GG] com.justin.energy.common.WebsocketOverMqttClient.connectionLost()
+ERROR: Connection lost with broker, detail Connection lost
+2018-07-03 01:51:10 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 2 seconds. Detail: Connect already in progress
+2018-07-03 01:51:10 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 3 seconds. Detail: Connect already in progress
+2018-07-03 01:51:11 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 1 seconds. Detail: Connection lost
+2018-07-03 01:51:11 [MQTT Rec: AA-BB-CC-DD-EE-FF-GG] com.justin.energy.common.WebsocketOverMqttClient.connectionLost()
+ERROR: Connection lost with broker, detail Connection lost
+2018-07-03 01:51:11 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 3 seconds. Detail: Connect already in progress
+2018-07-03 01:51:11 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 2 seconds. Detail: Connect already in progress
+2018-07-03 01:51:11 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 1 seconds. Detail: Connection lost
+2018-07-03 01:51:11 [MQTT Rec: AA-BB-CC-DD-EE-FF-GG] com.justin.energy.common.WebsocketOverMqttClient.connectionLost()
+ERROR: Connection lost with broker, detail Connection lost
+2018-07-03 01:51:11 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 3 seconds. Detail: Connect already in progress
+2018-07-03 01:51:11 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 2 seconds. Detail: Connect already in progress
+2018-07-03 01:51:11 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 1 seconds. Detail: Connection lost
+2018-07-03 01:51:11 [MQTT Rec: AA-BB-CC-DD-EE-FF-GG] com.justin.energy.common.WebsocketOverMqttClient.connectionLost()
+ERROR: Connection lost with broker, detail Connection lost
+2018-07-03 01:51:11 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 2 seconds. Detail: Connect already in progress
+2018-07-03 01:51:11 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 3 seconds. Detail: Connect already in progress
+2018-07-03 01:51:11 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 1 seconds. Detail: Connection lost
+2018-07-03 01:51:11 [MQTT Rec: AA-BB-CC-DD-EE-FF-GG] com.justin.energy.common.WebsocketOverMqttClient.connectionLost()
+ERROR: Connection lost with broker, detail Connection lost
+2018-07-03 01:51:11 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 2 seconds. Detail: Connect already in progress
+2018-07-03 01:51:11 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 3 seconds. Detail: Connect already in progress
+2018-07-03 01:51:11 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 1 seconds. Detail: Connection lost
+2018-07-03 01:51:11 [MQTT Rec: AA-BB-CC-DD-EE-FF-GG] com.justin.energy.common.WebsocketOverMqttClient.connectionLost()
+ERROR: Connection lost with broker, detail Connection lost
+2018-07-03 01:51:11 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 2 seconds. Detail: Connect already in progress
+2018-07-03 01:51:11 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 3 seconds. Detail: Connect already in progress
+2018-07-03 01:51:11 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 1 seconds. Detail: Connection lost
+2018-07-03 01:51:11 [MQTT Rec: AA-BB-CC-DD-EE-FF-GG] com.justin.energy.common.WebsocketOverMqttClient.connectionLost()
+ERROR: Connection lost with broker, detail Connection lost
+2018-07-03 01:51:11 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 2 seconds. Detail: Connect already in progress
+2018-07-03 01:51:11 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 3 seconds. Detail: Connect already in progress
+2018-07-03 01:51:11 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 1 seconds. Detail: Connection lost
+2018-07-03 01:51:11 [MQTT Rec: AA-BB-CC-DD-EE-FF-GG] com.justin.energy.common.WebsocketOverMqttClient.connectionLost()
+ERROR: Connection lost with broker, detail Connection lost
+2018-07-03 01:51:11 [MQTT Reconnection Thread] com.justin.energy.common.WebsocketOverMqttClient.lambda$0()
+ERROR: Fail when connect to MQTT broker, rety after 2 seconds. Detail: Connect already in progress
