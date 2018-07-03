@@ -3,8 +3,14 @@
  */
 package com.justin.energy.bootloader.fota;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.InetAddress;
+import java.net.Socket;
+
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.pmw.tinylog.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.justin.energy.common.dto.FotaDto;
@@ -14,10 +20,14 @@ import com.justin.energy.common.dto.FotaDto;
  */
 public abstract class FotaHandler implements IMqttMessageListener {
   protected final String gatewayId;
-  protected boolean upgradeInProgress;
+  protected final Object softwareUpgradeLock;
+  private final int readerApplicationPort;
 
-  protected FotaHandler(final String gatewayId) {
+  protected FotaHandler(final String gatewayId, final Object softwareUpgradeLock,
+      final int readerApplicationPort) {
     this.gatewayId = gatewayId;
+    this.softwareUpgradeLock = softwareUpgradeLock;
+    this.readerApplicationPort = readerApplicationPort;
   }
 
   @Override
@@ -29,16 +39,24 @@ public abstract class FotaHandler implements IMqttMessageListener {
       return;
     }
 
-    synchronized (this) {
-      // Upgrade already in progress
-      if (upgradeInProgress) {
-        return;
-      }
-
-      upgradeInProgress = true;
+    synchronized (softwareUpgradeLock) {
+      shutdownReaderApplication();
       startUpgrade(fotaInfo);
     }
   }
 
   protected abstract void startUpgrade(FotaDto fotaInfo) throws Exception;
+
+  private void shutdownReaderApplication() {
+    Logger.info("Shutting down reader application for firmware upgrade");
+    try (Socket readerApplicationShutdown =
+        new Socket(InetAddress.getLocalHost(), readerApplicationPort)) {
+      try (OutputStream os = readerApplicationShutdown.getOutputStream()) {
+        os.write(gatewayId.getBytes());
+        os.flush();
+      }
+    } catch (final IOException ex) {
+      // Reader application is not running, fine.
+    }
+  }
 }

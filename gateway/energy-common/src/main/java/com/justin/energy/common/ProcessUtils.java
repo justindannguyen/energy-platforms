@@ -10,15 +10,26 @@ import java.util.Arrays;
 
 import org.pmw.tinylog.Logger;
 
+import com.justin.energy.common.config.LocalStorage;
+
 /**
  * @author tuan3.nguyen@gmail.com
  */
 public interface ProcessUtils {
-  public static boolean runCmd(final String... params) {
+  public static Process runCmd(final String... params) throws IOException {
     if (params == null || params.length == 0) {
       throw new IllegalArgumentException("command is null or empty");
     }
-    final ProcessBuilder pb = new ProcessBuilder(Arrays.asList(params));
+    return new ProcessBuilder(Arrays.asList(params)).redirectErrorStream(true)
+        .directory(LocalStorage.getApplicationRoot()).start();
+  }
+
+  public static boolean runCmdAndWait(final String... params) {
+    if (params == null || params.length == 0) {
+      throw new IllegalArgumentException("command is null or empty");
+    }
+    final ProcessBuilder pb =
+        new ProcessBuilder(Arrays.asList(params)).directory(LocalStorage.getApplicationRoot());
     try {
       final Process process = pb.redirectErrorStream(true).start();
       final BufferedReader reader =

@@ -3,7 +3,7 @@
  */
 package com.justin.energy.bootloader;
 
-import java.io.File;
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.concurrent.TimeUnit;
 
@@ -18,11 +18,13 @@ import com.justin.energy.common.config.LocalStorage;
 public class EnergyReaderWatchDog implements Runnable {
   private final int energyReaderApplicationPort;
   private final Thread thread;
+  private final Object softwareUpgradeLock;
   private transient boolean running = false;
-  private transient boolean paused = false;
 
-  public EnergyReaderWatchDog(final int energyReaderApplicationPort) {
+  public EnergyReaderWatchDog(final int energyReaderApplicationPort,
+      final Object softwareUpgradeLock) {
     this.energyReaderApplicationPort = energyReaderApplicationPort;
+    this.softwareUpgradeLock = softwareUpgradeLock;
     thread = new Thread(this);
     thread.setName("Energy Reader Watch Dog");
     thread.setDaemon(true);
@@ -31,7 +33,7 @@ public class EnergyReaderWatchDog implements Runnable {
   @Override
   public void run() {
     while (running) {
-      if (!paused) {
+      synchronized (softwareUpgradeLock) {
         try (ServerSocket checkIfReaderIsRunning = new ServerSocket(energyReaderApplicationPort)) {
           Logger.info("Reader appliation is not running, awake it up!!!");
           awakeUpReaderApplication();
@@ -60,11 +62,11 @@ public class EnergyReaderWatchDog implements Runnable {
   }
 
   private void awakeUpReaderApplication() {
+    final String energyReaderJar = LocalStorage.getApplicationExecutable().getAbsolutePath();
     final String java = System.getenv("JAVA_HOME") + "/bin/java";
-    final String energyReaderJar =
-        new File(System.getProperty("user.home"), LocalStorage.applicationName + ".jar")
-            .getAbsolutePath();
-    if (!ProcessUtils.runCmd(java, "-jar", energyReaderJar)) {
+    try {
+      ProcessUtils.runCmd(java, "-jar", energyReaderJar);
+    } catch (final IOException ex) {
       Logger.error("Could not awake up the energy reader application ({})", energyReaderJar);
     }
   }

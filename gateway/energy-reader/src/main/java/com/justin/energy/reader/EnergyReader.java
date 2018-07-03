@@ -3,9 +3,12 @@
  */
 package com.justin.energy.reader;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -35,7 +38,7 @@ import com.justin.energy.reader.transmission.dto.EnergyUsageDto;
 /**
  * @author tuan3.nguyen@gmail.com
  */
-public class EnergyReader {
+public class EnergyReader implements Runnable {
   private static final int initialReportDelay = 20;
   private static final int initialDeviceStatusDelay = 60;
 
@@ -47,7 +50,7 @@ public class EnergyReader {
   private final ObjectMapper objectMapper = new ObjectMapper();
   private final ApplicationProperties properties = new ApplicationProperties();
   private final LocalStorage<RunConfiguration> localStorage = new LocalStorage<>();
-  private final String gatewayId = System.getenv("ENERGY_GATEWAY_ID");
+  private final String gatewayId = ApplicationProperties.getConfiguredDeviceId();
   private WebsocketOverMqttClient cloudClient;
   private MeterModbusMaster meterModbusMaster;
   private RunConfiguration runConfiguration;
@@ -65,6 +68,10 @@ public class EnergyReader {
     }
     try {
       applicationLock = new ServerSocket(properties.getApplicationLockPort());
+      final Thread shutdownThread = new Thread(this);
+      shutdownThread.setName("Shutdown Listener");
+      shutdownThread.setDaemon(true);
+      shutdownThread.start();
     } catch (final IOException ex) {
       throw new StartupException("Application is already running");
     }
@@ -72,6 +79,31 @@ public class EnergyReader {
 
   public String getGatewayId() {
     return gatewayId;
+  }
+
+  @Override
+  public void run() {
+    // Wait on shutdown port
+    try {
+      boolean shutdown = false;
+      do {
+        final Socket bootloader = applicationLock.accept();
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(bootloader.getInputStream()))) {
+          final String shutdownPassword = br.readLine();
+          shutdown = getGatewayId().equals(shutdownPassword);
+        }
+      } while (shutdown == false);
+    } catch (final IOException ex) {
+      Logger.error(ex, "Could not start shutdown thread");
+    }
+
+    Logger.info("Receive shutdown request from boot loader, terminating");
+    try {
+      stop();
+    } catch (final ShutdownException ex) {
+      Logger.error(ex, "Errors encountered during shutdown process, force stop");
+    }
+    System.exit(0);
   }
 
   public void start() throws StartupException {
@@ -122,15 +154,9 @@ public class EnergyReader {
 
   private void connectWithBroker() throws StartupException {
     try {
-      cloudClient = new WebsocketOverMqttClient(gatewayId, runConfiguration);
+      cloudClient = new WebsocketOverMqttClient(
+          String.format("%s-%s", getClass().getSimpleName(), gatewayId), runConfiguration);
       cloudClient.connect();
-
-      final String fotaParameterTopic =
-          String.format(properties.getFotaParameterTopic(), gatewayId);
-      cloudClient.subscribe(fotaParameterTopic, QOS.AT_LEAST_ONE, new FotaHandler(this));
-      final String fotaSoftwareTopic = String.format(properties.getFotaSoftwareTopic(), gatewayId);
-      cloudClient.subscribe(fotaSoftwareTopic, QOS.AT_LEAST_ONE, new FotaHandler(this));
-
       Logger.info("Connected to broker: " + runConfiguration.getBrokerUrl());
     } catch (final MqttException ex) {
       throw new StartupException("Can't connect to Mqtt broker", ex);
@@ -178,7 +204,7 @@ public class EnergyReader {
   }
 
   private RunConfiguration loadLocalConfigurations() throws StartupException {
-    Logger.info("Loading configuration from local {}", LocalStorage.getRunConfigurationFile());
+    Logger.info("Loading configuration from local {}", LocalStorage.getRunReaderConfigurationFile());
     try {
       return localStorage.load(RunConfiguration.class);
     } catch (final Exception ex) {
@@ -189,7 +215,7 @@ public class EnergyReader {
   }
 
   private void loadRunConfigurations() throws StartupException {
-    final boolean localConfigurationExist = localStorage.doesConfigurationExist();
+    final boolean localConfigurationExist = LocalStorage.doesRunReaderConfigurationExist();
     runConfiguration =
         localConfigurationExist ? loadLocalConfigurations() : downloadAndSaveConfigurations();
 

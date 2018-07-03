@@ -13,6 +13,10 @@ import java.util.Properties;
 public class ApplicationProperties {
   private static final String FILE = "application.properties";
 
+  public static final String getConfiguredDeviceId() {
+    return System.getenv("ENERGY_GATEWAY_ID");
+  }
+
   protected final Properties props = new Properties();
 
   public String getApplicationVersion() {

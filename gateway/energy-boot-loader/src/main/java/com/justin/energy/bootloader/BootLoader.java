@@ -24,11 +24,14 @@ public class BootLoader {
     new BootLoader().start();
   }
 
-  private final String gatewayId = System.getenv("ENERGY_GATEWAY_ID");
+  private final String gatewayId = ApplicationProperties.getConfiguredDeviceId();
   private final ApplicationProperties properties = new ApplicationProperties();
   private WebsocketOverMqttClient mqttClient;
   private final EnergyReaderWatchDog energyReaderWatchDog;
-
+  /**
+   * Software upgrades, parameter upgrades and start-reader-application can't run at same time.
+   */
+  private final Object softwareUpgradeLock = new Object();
 
   public BootLoader() throws StartupException {
     if (System.getenv("JAVA_HOME") == null) {
@@ -42,7 +45,8 @@ public class BootLoader {
     } catch (final IOException ex) {
       throw new StartupException("Could not load the application properties file", ex);
     }
-    energyReaderWatchDog = new EnergyReaderWatchDog(properties.getReaderApplicationLockPort());
+    energyReaderWatchDog =
+        new EnergyReaderWatchDog(properties.getReaderApplicationLockPort(), softwareUpgradeLock);
   }
 
   public void start() throws StartupException {
@@ -51,15 +55,17 @@ public class BootLoader {
       mqttConfig.setBrokerPassword(properties.getBrokerPassword());
       mqttConfig.setBrokerUrl(properties.getBrokerUrl());
       mqttConfig.setBrokerUsername(properties.getBrokerUsername());
-      mqttClient = new WebsocketOverMqttClient(gatewayId, mqttConfig);
+      mqttClient = new WebsocketOverMqttClient(
+          String.format("%s-%s", getClass().getSimpleName(), gatewayId), mqttConfig);
       mqttClient.connect();
 
       final String fotaParameterTopic =
           String.format(properties.getFotaParameterTopic(), gatewayId);
-      mqttClient.subscribe(fotaParameterTopic, QOS.AT_LEAST_ONE,
-          new ParameterFotaHandler(gatewayId));
+      mqttClient.subscribe(fotaParameterTopic, QOS.AT_LEAST_ONE, new ParameterFotaHandler(gatewayId,
+          softwareUpgradeLock, properties.getReaderApplicationLockPort()));
       final String fotaSoftwareTopic = String.format(properties.getFotaSoftwareTopic(), gatewayId);
-      mqttClient.subscribe(fotaSoftwareTopic, QOS.AT_LEAST_ONE, new SoftwareFotaHandler(gatewayId));
+      mqttClient.subscribe(fotaSoftwareTopic, QOS.AT_LEAST_ONE, new SoftwareFotaHandler(gatewayId,
+          softwareUpgradeLock, properties.getReaderApplicationLockPort()));
 
       Logger.info("Connected to broker: " + mqttConfig.getBrokerUrl());
     } catch (final Exception ex) {

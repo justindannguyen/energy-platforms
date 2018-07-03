@@ -16,48 +16,44 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author tuan3.nguyen@gmail.com
  */
 public class LocalStorage<T> {
-  public static final String applicationName = "energy-reader";
-  private static final String runConfigurationFolderName = "energy-profile";
-  private static final String runConfigurationFileName = "runConfiguration.json";
+  public static final String readerApplicationName = "energy-reader";
+  public static final String applicationFotaFolderName = "energy-fota";
+  private static final String runConfigurationFolderName = "energy-configurations";
+  private static final String runReaderConfigurationFileName = "runReaderConfiguration.json";
 
-  public static File getRoot() {
-    return new File(System.getProperty("user.home"), runConfigurationFolderName);
+  public static boolean delete() {
+    return delete(getStorageRoot());
   }
 
-  public static File getRunConfigurationFile() {
-    return new File(getRoot(), runConfigurationFileName);
+  public static boolean doesRunReaderConfigurationExist() {
+    return getRunReaderConfigurationFile().exists();
   }
 
-  public boolean delete() {
-    if (doesConfigurationExist()) {
-      return delete(getRoot());
-    }
-    return true;
+  public static File getApplicationExecutable() {
+    return new File(getReaderApplicationRoot(), readerApplicationName + ".jar");
   }
 
-  public boolean doesConfigurationExist() {
-    return getRunConfigurationFile().exists();
+  public static File getApplicationRoot() {
+    return new File(System.getProperty("user.home"));
   }
 
-  public T load(final Class<T> clazz) throws JsonParseException, JsonMappingException, IOException {
-    final ObjectMapper jsonMapper = new ObjectMapper();
-    if (!doesConfigurationExist()) {
-      throw new FileNotFoundException("Configuration file not exist on local drive");
-    }
-    return jsonMapper.readValue(getRunConfigurationFile(), clazz);
+  public static File getFotaRoot() {
+    return new File(getApplicationRoot(), applicationFotaFolderName);
   }
 
-  public void store(final T configuration)
-      throws JsonGenerationException, JsonMappingException, IOException {
-    final ObjectMapper jsonMapper = new ObjectMapper();
-    final File root = getRoot();
-    if (!root.exists()) {
-      root.mkdirs();
-    }
-    jsonMapper.writeValue(getRunConfigurationFile(), configuration);
+  public static File getReaderApplicationRoot() {
+    return new File(getApplicationRoot(), readerApplicationName);
   }
 
-  private boolean delete(final File file) {
+  public static File getRunReaderConfigurationFile() {
+    return new File(getStorageRoot(), runReaderConfigurationFileName);
+  }
+
+  public static File getStorageRoot() {
+    return new File(getApplicationRoot(), runConfigurationFolderName);
+  }
+
+  private static boolean delete(final File file) {
     if (!file.exists()) {
       return true;
     }
@@ -70,5 +66,23 @@ public class LocalStorage<T> {
       }
     }
     return file.delete() & result;
+  }
+
+  public T load(final Class<T> clazz) throws JsonParseException, JsonMappingException, IOException {
+    final ObjectMapper jsonMapper = new ObjectMapper();
+    if (!doesRunReaderConfigurationExist()) {
+      throw new FileNotFoundException("Configuration file not exist on local drive");
+    }
+    return jsonMapper.readValue(getRunReaderConfigurationFile(), clazz);
+  }
+
+  public void store(final T configuration)
+      throws JsonGenerationException, JsonMappingException, IOException {
+    final ObjectMapper jsonMapper = new ObjectMapper();
+    final File root = getStorageRoot();
+    if (!root.exists()) {
+      root.mkdirs();
+    }
+    jsonMapper.writeValue(getRunReaderConfigurationFile(), configuration);
   }
 }

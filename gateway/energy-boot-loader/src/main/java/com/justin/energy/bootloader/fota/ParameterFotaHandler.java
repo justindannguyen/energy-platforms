@@ -3,6 +3,9 @@
  */
 package com.justin.energy.bootloader.fota;
 
+import org.pmw.tinylog.Logger;
+
+import com.justin.energy.common.config.LocalStorage;
 import com.justin.energy.common.dto.FotaDto;
 
 /**
@@ -10,31 +13,17 @@ import com.justin.energy.common.dto.FotaDto;
  */
 public class ParameterFotaHandler extends FotaHandler {
 
-  public ParameterFotaHandler(final String gatewayId) {
-    super(gatewayId);
+  public ParameterFotaHandler(final String gatewayId, final Object softwareUpgradeLock,
+      final int readerApplicationPort) {
+    super(gatewayId, softwareUpgradeLock, readerApplicationPort);
   }
 
   @Override
   protected void startUpgrade(final FotaDto fotaInfo) {
-    final Thread shutdownThread = new Thread(() -> {
-      // try {
-        // if (!LocalStorage.delete()) {
-        // Logger.info("FOTA fail!!!");
-        // synchronized (ParameterFotaHandler.this) {
-        // upgradeInProgress = false;
-        // }
-        // return;
-        // }
-        // Logger.info("FOTA successful, applying new configuration");
-        // gateway.stop();
-        // new EnergyGateway().start();
-        // Logger.info("System is now running with new configuration");
-//      } catch (final ShutdownException | StartupException ex) {
-//        Logger.error(ex, "FOTA successful but physical restart is required");
-//      }
-    });
-    shutdownThread.setName("Parameter FOTA");
-    shutdownThread.setDaemon(true);
-    shutdownThread.start();
+    if (!LocalStorage.getRunReaderConfigurationFile().delete()) {
+      Logger.info("Parameter FOTA fail!!!");
+    } else {
+      Logger.info("Parameter FOTA successful");
+    }
   }
 }

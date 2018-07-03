@@ -24,7 +24,7 @@ import com.justin.energy.common.config.MqttConfiguration;
 /**
  * @author tuan3.nguyen@gmail.com
  */
-public class WebsocketOverMqttClient implements MqttCallback {
+public class WebsocketOverMqttClient implements MqttCallback, Runnable {
 
   public static enum QOS {
     AT_MOST_ONE, AT_LEAST_ONE, EXACTLY_ONE;
@@ -63,14 +63,14 @@ public class WebsocketOverMqttClient implements MqttCallback {
   private Exception lastError;
   private final ObjectMapper objectMapper = new ObjectMapper();
   private transient boolean running = true;
-  private Thread watchDog;
+  private final Thread watchDog;
 
   public WebsocketOverMqttClient(final String clientId, final MqttConfiguration runConfiguration)
       throws MqttException {
     this.mqttConnectOpts = new MqttConnectOptions();
     this.mqttConnectOpts.setAutomaticReconnect(false);
     this.mqttConnectOpts.setCleanSession(false);
-    String password = runConfiguration.getBrokerPassword();
+    final String password = runConfiguration.getBrokerPassword();
     if (password != null && password.trim().length() != 0) {
       this.mqttConnectOpts.setPassword(password.toCharArray());
     }
@@ -81,6 +81,11 @@ public class WebsocketOverMqttClient implements MqttCallback {
 
     this.mqttClient = new MqttClient(runConfiguration.getBrokerUrl(), clientId);
     this.mqttClient.setCallback(this);
+
+    // Watch dog is not required if mqtt is auto reconnect
+    watchDog = new Thread(this);
+    watchDog.setDaemon(true);
+    watchDog.setName("MQTT Reconnection Thread");
   }
 
   /**
@@ -88,43 +93,15 @@ public class WebsocketOverMqttClient implements MqttCallback {
    */
   public void connect() {
     running = true;
-    final Runnable runnable = () -> {
-      int retryTimes = 0;
-      while (running && !mqttClient.isConnected()) {
-        try {
-          mqttClient.connect(mqttConnectOpts);
-          lastError = null;
-          for (final SubscriberDefinition subscriber : subscribers) {
-            for (final SubscriptionDefinition subscription : subscriber.subscriptions) {
-              mqttClient.subscribe(subscription.topic, subscription.qos.ordinal(),
-                  subscriber.handler);
-            }
-          }
-          Logger.info("Connected to MQTT broker");
-        } catch (final Exception ex) {
-          lastError = ex;
-          retryTimes++;
-          try {
-            Logger.error("Fail when connect to MQTT broker, rety after {} seconds. Detail: {}",
-                retryTimes, ex.getMessage());
-            TimeUnit.SECONDS.sleep(retryTimes);
-          } catch (final InterruptedException ex1) {
-            break;
-          }
-        }
-      }
-    };
-
-    watchDog = new Thread(runnable);
-    watchDog.setDaemon(true);
-    watchDog.setName("MQTT Reconnection Thread");
     watchDog.start();
   }
 
   @Override
   public void connectionLost(final Throwable exception) {
     Logger.error("Connection lost with broker, detail {}", exception.getMessage());
-    connect();
+    synchronized (watchDog) {
+      watchDog.notify();
+    }
   }
 
   @Override
@@ -158,6 +135,45 @@ public class WebsocketOverMqttClient implements MqttCallback {
     return false;
   }
 
+  @Override
+  public void run() {
+    int retryTimes = 0;
+    while (running) {
+      synchronized (watchDog) {
+        while (mqttClient.isConnected()) {
+          try {
+            watchDog.wait();
+          } catch (final InterruptedException ex) {
+            break;
+          }
+        }
+      }
+
+      try {
+        mqttClient.connect(mqttConnectOpts);
+        for (final SubscriberDefinition subscriber : subscribers) {
+          for (final SubscriptionDefinition subscription : subscriber.subscriptions) {
+            mqttClient.subscribe(subscription.topic, subscription.qos.ordinal(),
+                subscriber.handler);
+          }
+        }
+        lastError = null;
+        retryTimes = 0;
+        Logger.info("Connected to MQTT broker");
+      } catch (final Exception ex) {
+        lastError = ex;
+        retryTimes++;
+        try {
+          Logger.error("Fail when connect to MQTT broker, rety after {} seconds. Detail: {}",
+              retryTimes, ex.getMessage());
+          TimeUnit.SECONDS.sleep(retryTimes);
+        } catch (final InterruptedException ex1) {
+          break;
+        }
+      }
+    }
+  }
+
   /**
    * Subscribe to broker topic if connection is connected. If client is disconnected from server
    * then it will be subscribed later.
@@ -183,10 +199,11 @@ public class WebsocketOverMqttClient implements MqttCallback {
    */
   private boolean publish(final String topic, final int qos, final byte[] payload)
       throws MqttPersistenceException, MqttException {
+    boolean success = false;
     if (mqttClient.isConnected()) {
       mqttClient.publish(topic, payload, qos, false);
-      return true;
+      success = true;
     }
-    return false;
+    return success;
   }
 }
