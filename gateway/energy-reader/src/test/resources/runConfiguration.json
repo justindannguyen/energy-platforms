@@ -4,12 +4,12 @@
 	"stopBits": 1,
 	"serialPort": "COM6",
 	"parity": "EVEN",
-	"brokerUrl": "tcp://14.161.34.137:1883",
-	"brokerUsername": null,
-	"brokerPassword": null,
 	"energyReportInterval": 60,
-	"deviceStatusReportInterval": 86400,
+	"deviceStatusReportInterval": 60,
 	"gatewayId": "AA-BB-CC-DD-EE-FF-GG",
+	"kafkaConfiguration": {
+		"bootstrapServers":"14.161.34.137:9092"
+	},
 	"meterConfigurations": [
 		{
 			"meterId": 1,

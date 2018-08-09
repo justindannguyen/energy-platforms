@@ -12,7 +12,7 @@ public class DeviceStatusDto {
   private int sdCardUsage;
   private String lastGatewayError;
   private String lastModbusError;
-  private String lastMqttError;
+  private String lastKafkaError;
 
   public int getFlashUsage() {
     return flashUsage;
@@ -26,12 +26,12 @@ public class DeviceStatusDto {
     return lastGatewayError;
   }
 
-  public String getLastModbusError() {
-    return lastModbusError;
+  public String getLastKafkaError() {
+    return lastKafkaError;
   }
 
-  public String getLastMqttError() {
-    return lastMqttError;
+  public String getLastModbusError() {
+    return lastModbusError;
   }
 
   public int getSdCardUsage() {
@@ -50,12 +50,12 @@ public class DeviceStatusDto {
     this.lastGatewayError = lastGatewayError;
   }
 
-  public void setLastModbusError(final String lastModbusError) {
-    this.lastModbusError = lastModbusError;
+  public void setLastKafkaError(final String lastKafkaError) {
+    this.lastKafkaError = lastKafkaError;
   }
 
-  public void setLastMqttError(final String lastMqttError) {
-    this.lastMqttError = lastMqttError;
+  public void setLastModbusError(final String lastModbusError) {
+    this.lastModbusError = lastModbusError;
   }
 
   public void setSdCardUsage(final int sdCardUsage) {

@@ -5,12 +5,10 @@ package com.justin.energy.reader.config;
 
 import java.util.List;
 
-import com.justin.energy.common.config.MqttConfiguration;
-
 /**
  * @author tuan3.nguyen@gmail.com
  */
-public class RunConfiguration extends MqttConfiguration {
+public class RunConfiguration {
   private int baudRate;
   private int dataBits;
   private String parity;
@@ -20,6 +18,7 @@ public class RunConfiguration extends MqttConfiguration {
   private int energyReportInterval;
   private int deviceStatusReportInterval;
   private String schemaVersion;
+  private KafkaConfiguration kafkaConfiguration;
   private List<MeterConfiguration> meterConfigurations;
 
   public int getBaudRate() {
@@ -40,6 +39,10 @@ public class RunConfiguration extends MqttConfiguration {
 
   public String getGatewayId() {
     return gatewayId;
+  }
+
+  public KafkaConfiguration getKafkaConfiguration() {
+    return kafkaConfiguration;
   }
 
   public List<MeterConfiguration> getMeterConfigurations() {
@@ -80,6 +83,10 @@ public class RunConfiguration extends MqttConfiguration {
 
   public void setGatewayId(final String gatewayId) {
     this.gatewayId = gatewayId;
+  }
+
+  public void setKafkaConfiguration(final KafkaConfiguration kafkaConfiguration) {
+    this.kafkaConfiguration = kafkaConfiguration;
   }
 
   public void setMeterConfigurations(final List<MeterConfiguration> meterConfigurations) {

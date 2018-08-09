@@ -14,10 +14,10 @@ import com.intelligt.modbus.jlibmodbus.master.ModbusMasterFactory;
 import com.intelligt.modbus.jlibmodbus.serial.SerialParameters;
 import com.intelligt.modbus.jlibmodbus.serial.SerialPort.BaudRate;
 import com.intelligt.modbus.jlibmodbus.serial.SerialPort.Parity;
-import com.justin.energy.reader.config.RunConfiguration;
-import com.justin.energy.reader.config.MeterConfiguration.HoldingRegister;
 import com.intelligt.modbus.jlibmodbus.serial.SerialPortException;
 import com.intelligt.modbus.jlibmodbus.serial.SerialUtils;
+import com.justin.energy.reader.config.MeterConfiguration.HoldingRegister;
+import com.justin.energy.reader.config.RunConfiguration;
 
 /**
  * @author tuan3.nguyen@gmail.com
@@ -30,7 +30,7 @@ public class MeterModbusMaster implements Runnable {
 
   public MeterModbusMaster(final RunConfiguration configuration) throws SerialPortException {
     final SerialParameters sp = new SerialParameters();
-    Modbus.setLogLevel(Modbus.LogLevel.LEVEL_DEBUG);
+    Modbus.setLogLevel(Modbus.LogLevel.LEVEL_WARNINGS);
 
     sp.setDevice(configuration.getSerialPort());
     sp.setBaudRate(BaudRate.getBaudRate(configuration.getBaudRate()));

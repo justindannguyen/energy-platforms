@@ -16,11 +16,11 @@ public class ApplicationProperties extends com.justin.energy.common.config.Appli
   }
 
   public String getDeviceStatusTopic() {
-    return props.getProperty("config.mqtt.deviceStatusTopic");
+    return props.getProperty("config.kafka.deviceStatusTopic");
   }
 
   public String getEnergyReportTopic() {
-    return props.getProperty("config.mqtt.energyReportTopic");
+    return props.getProperty("config.kafka.energyReportTopic");
   }
 
   public String getFotaParameterTopic() {
