@@ -6,3 +6,5 @@ target/
 *.lck
 energy-reader-log/
 gateway/energy-reader/log/
+gateway/energy-reader/.energy/
+gateway/energy-boot-loader/.energy/

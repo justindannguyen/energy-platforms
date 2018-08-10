@@ -140,7 +140,7 @@ public class EnergyReader implements Runnable {
     }
   }
 
-  private static final int initialReportDelay = 20;
+  private static final int initialReportDelay = 2;
   private static final int initialDeviceStatusDelay = 60;
 
   public static void main(final String[] args) {

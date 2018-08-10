@@ -38,8 +38,9 @@ public abstract class FotaHandler implements IMqttMessageListener {
       return;
     }
 
+    Logger.info("Receive the FOTA upgrade request");
+    shutdownReaderApplication();
     synchronized (softwareUpgradeLock) {
-      shutdownReaderApplication();
       startUpgrade(fotaInfo);
     }
   }

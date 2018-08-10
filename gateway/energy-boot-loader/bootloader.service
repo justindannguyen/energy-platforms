@@ -1,0 +1,11 @@
+[Unit]
+Description=Energy Bootloader
+After=network.target
+
+[Service]
+
+Type=simple
+ExecStart=/bin/sh /home/root/bootloader.sh
+
+[Install]
+WantedBy=multi-user.target

@@ -71,7 +71,8 @@ public class BootLoader {
       mqttClient.subscribe(fotaSoftwareTopic, QOS.AT_LEAST_ONE, new SoftwareFotaHandler(gatewayId,
           softwareUpgradeLock, properties.getReaderApplicationLockPort()));
 
-      Logger.info("Connected to broker: " + mqttConfig.getBrokerUrl());
+      Logger.info("Connected to broker: {}, topics [{}, {}]", mqttConfig.getBrokerUrl(),
+          fotaParameterTopic, fotaSoftwareTopic);
     } catch (final Exception ex) {
       throw new StartupException("Could not initialize MQTT client", ex);
     }

@@ -8,7 +8,6 @@ import static com.justin.energy.common.config.ApplicationProperties.getConfigure
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.util.concurrent.TimeUnit;
 
 import org.pmw.tinylog.Logger;
 
@@ -36,23 +35,18 @@ public class EnergyReaderWatchDog implements Runnable {
   @Override
   public void run() {
     while (running) {
-      synchronized (softwareUpgradeLock) {
-        boolean readerIsRunning = true;
-        try (ServerSocket checkIfReaderIsRunning = new ServerSocket(energyReaderApplicationPort)) {
-          readerIsRunning = false;
-        } catch (final Exception ex) {
-          // Reader application is running as usual, going to sleep and check later
-        }
-        if (readerIsRunning == false) {
+      boolean readerIsRunning = true;
+      try (ServerSocket checkIfReaderIsRunning = new ServerSocket(energyReaderApplicationPort)) {
+        readerIsRunning = false;
+      } catch (final Exception ex) {
+        // Reader application is running as usual, going to sleep and check later
+      }
+      if (readerIsRunning == false) {
+        synchronized (softwareUpgradeLock) {
           Logger.info("Reader appliation is not running, awake it up!!!");
+          // Execute and return only if reader is exit.
           awakeUpReaderApplication();
         }
-      }
-      try {
-        TimeUnit.MINUTES.sleep(2);
-      } catch (final InterruptedException ex1) {
-        running = false;
-        break;
       }
     }
   }
@@ -72,7 +66,7 @@ public class EnergyReaderWatchDog implements Runnable {
     final String energyReaderJar = LocalStorage.getApplicationExecutable().getAbsolutePath();
     final String java = System.getenv("JAVA_HOME") + "/bin/java";
     try {
-      ProcessUtils.runCmd(java, "-jar",
+      ProcessUtils.runCmd(true, java, "-jar",
           String.format("-D%s=%s", GATEWAY_ID_ENV_KEY, getConfiguredDeviceId()), energyReaderJar);
     } catch (final IOException ex) {
       Logger.error("Could not awake up the energy reader application ({})", energyReaderJar);

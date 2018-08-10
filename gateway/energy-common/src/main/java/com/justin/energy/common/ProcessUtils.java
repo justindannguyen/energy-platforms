@@ -16,20 +16,22 @@ import com.justin.energy.common.config.LocalStorage;
  * @author tuan3.nguyen@gmail.com
  */
 public interface ProcessUtils {
-  public static void runCmd(final String... params) throws IOException {
+  public static void runCmd(final boolean printError, final String... params) throws IOException {
     if (params == null || params.length == 0) {
       throw new IllegalArgumentException("command is null or empty");
     }
     final Process process = new ProcessBuilder(Arrays.asList(params))
         .directory(LocalStorage.getApplicationRoot()).start();
-    final BufferedReader reader =
-        new BufferedReader(new InputStreamReader(process.getErrorStream()));
-    String errorLine;
-    final StringBuilder response = new StringBuilder();
-    while ((errorLine = reader.readLine()) != null) {
-      response.append(errorLine + "\n");
+    if (printError) {
+      final BufferedReader reader =
+          new BufferedReader(new InputStreamReader(process.getErrorStream()));
+      String errorLine;
+      final StringBuilder response = new StringBuilder();
+      while ((errorLine = reader.readLine()) != null) {
+        response.append(errorLine + "\n");
+      }
+      Logger.error(response.toString());
     }
-    Logger.error(response.toString());
   }
 
   public static boolean runCmdAndWait(final String... params) {

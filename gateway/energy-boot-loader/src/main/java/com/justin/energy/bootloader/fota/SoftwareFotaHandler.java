@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -70,8 +71,10 @@ public class SoftwareFotaHandler extends FotaHandler {
 
   private String downloadNewBinary(final String remoteUrl)
       throws MalformedURLException, IOException {
-    final HttpURLConnection connection = (HttpURLConnection) new URL(remoteUrl).openConnection();
-    connection.setRequestMethod("GET");
+    final URLConnection connection = new URL(remoteUrl).openConnection();
+    if (connection instanceof HttpURLConnection) {
+      ((HttpURLConnection) connection).setRequestMethod("GET");
+    }
 
     final File upgradeFolder = LocalStorage.getFotaRoot();
     final File upgradeFile =
@@ -89,7 +92,9 @@ public class SoftwareFotaHandler extends FotaHandler {
         }
       }
     }
-    connection.disconnect();
+    if (connection instanceof HttpURLConnection) {
+      ((HttpURLConnection) connection).disconnect();
+    }
     Logger.info("New firmware is downloaded successful to {}", upgradeFile);
     return upgradeFile.getAbsolutePath();
   }
