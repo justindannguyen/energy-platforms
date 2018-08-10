@@ -69,13 +69,12 @@ public class LocalStorage {
     return jsonMapper.readValue(getRunReaderConfigurationFile(), clazz);
   }
 
-  public static <T> List<T> loadEnergyData(final File energyFile, final Class<T> clazz)
+  public static <T> T loadEnergyData(final File energyFile, final Class<T> clazz)
       throws JsonParseException, JsonMappingException, IOException {
     if (!energyFile.exists()) {
       throw new FileNotFoundException("Energy file not exist on local drive " + energyFile);
     }
-    final JavaType type = jsonMapper.getTypeFactory().constructCollectionType(List.class, clazz);
-    return jsonMapper.readValue(energyFile, type);
+    return jsonMapper.readValue(energyFile, clazz);
   }
 
   public static void storeConfigs(final Object configuration)
@@ -87,7 +86,7 @@ public class LocalStorage {
     jsonMapper.writeValue(getRunReaderConfigurationFile(), configuration);
   }
 
-  public static void storeEnergyData(final List<?> energies)
+  public static <T> void storeEnergyData(final T energies)
       throws JsonGenerationException, JsonMappingException, IOException {
     final File root = getEnergyDataRoot();
     if (!root.exists()) {

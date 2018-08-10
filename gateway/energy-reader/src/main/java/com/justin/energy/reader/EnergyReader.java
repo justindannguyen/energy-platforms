@@ -30,11 +30,14 @@ import com.justin.energy.common.exception.StartupException;
 import com.justin.energy.reader.config.ApplicationProperties;
 import com.justin.energy.reader.config.KafkaConfiguration;
 import com.justin.energy.reader.config.MeterConfiguration;
+import com.justin.energy.reader.config.MeterConfiguration.HoldingRegister;
 import com.justin.energy.reader.config.RunConfiguration;
 import com.justin.energy.reader.transmission.KafkaClient;
 import com.justin.energy.reader.transmission.MeterModbusMaster;
 import com.justin.energy.reader.transmission.dto.DeviceStatusDto;
 import com.justin.energy.reader.transmission.dto.EnergyUsageDto;
+import com.justin.energy.reader.transmission.dto.GatewayUsageDto;
+import com.justin.energy.reader.transmission.dto.MeterUsageDto;
 
 /**
  * @author tuan3.nguyen@gmail.com
@@ -51,75 +54,89 @@ public class EnergyReader implements Runnable {
       }
 
       // Read the energy sample from modbus, skip error to read till last meters
-      final Stream<EnergyUsageDto> energyReportStream = readFromMeters();
+      final GatewayUsageDto gatewayUsage = readFromMeters();
 
-      // Convert energy sample to JSON then share to cloud, only error items are retained
-      final Stream<EnergyUsageDto> errorStream = sendToServer(energyReportStream);
+      // Convert energy sample to JSON then share to cloud
+      final boolean uploadSuccess = sendToServer(gatewayUsage);
 
       // Backup the items which can't transfer to server due to network issues
-      final List<EnergyUsageDto> errorItems = errorStream.collect(Collectors.toList());
-      if (!errorItems.isEmpty()) {
-        storeErrorData(errorItems);
+      if (!uploadSuccess) {
+        backupReadingLocally(gatewayUsage);
       } else {
         // If previous items can be sent to server then try to send backup items as well.
         sendBackupReading();
       }
     }
 
-    private Stream<EnergyUsageDto> readFromMeters() {
-      return runConfiguration.getMeterConfigurations().stream().flatMap(config -> {
-        return config.getEnergyReportRegisters().stream().map(register -> {
-          final int meterId = config.getMeterId();
-          final int[] registerData = meterModbusMaster.readHoldingRegister(meterId, register);
-          if (registerData != null) {
-            return new EnergyUsageDto().setEnergyUsageResponse(registerData).setGatewayId(gatewayId)
-                .setMeterId(meterId).setRegisterId(register.getRegisterId());
-          }
-          return null;
-        });
-      }).filter(report -> report != null);
+    private void backupReadingLocally(final GatewayUsageDto gatewayUsage) {
+      try {
+        LocalStorage.storeEnergyData(gatewayUsage);
+        Logger.info("Backup the reading data due-to network issues");
+      } catch (final Exception ex) {
+        Logger.error(ex, "Can't backup the reading data");
+      }
+    }
+
+    private MeterUsageDto readFromMeter(final MeterConfiguration config) {
+      final int meterId = config.getMeterId();
+      final Stream<EnergyUsageDto> readingFromRegisters = config.getEnergyReportRegisters().stream()
+          .map(register -> readFromRegister(register, meterId)).filter(report -> report != null);
+
+      final MeterUsageDto meterUsage = new MeterUsageDto();
+      meterUsage.setMeterId(meterId);
+      meterUsage.setEnergyUsages(readingFromRegisters.collect(Collectors.toList()));
+      return meterUsage;
+    }
+
+    private GatewayUsageDto readFromMeters() {
+      final Stream<MeterUsageDto> meterUsages =
+          runConfiguration.getMeterConfigurations().stream().map(this::readFromMeter);
+      final GatewayUsageDto gatewayUsage = new GatewayUsageDto();
+      gatewayUsage.setGatewayId(gatewayId);
+      gatewayUsage.setMeterUsages(meterUsages.collect(Collectors.toList()));
+      return gatewayUsage;
+    }
+
+    private EnergyUsageDto readFromRegister(final HoldingRegister register, final int meterId) {
+      final int[] registerData = meterModbusMaster.readHoldingRegister(meterId, register);
+      return registerData == null ? null
+          : new EnergyUsageDto(register.getRegisterId(), registerData);
     }
 
     private void sendBackupReading() {
       final File energyDataRoot = LocalStorage.getEnergyDataRoot();
-      for (final File energyFile : energyDataRoot.listFiles()) {
+      final File[] backupFiles = energyDataRoot.listFiles();
+      if (backupFiles.length == 0) {
+        return;
+      }
+      Logger.info("Found {} backup samples, try to upload backup data...");
+      for (final File energyFile : backupFiles) {
         try {
-          Logger.info("Uploading backup data...");
-          final List<EnergyUsageDto> localEnergy =
-              LocalStorage.loadEnergyData(energyFile, EnergyUsageDto.class);
-          energyFile.delete();
+          final GatewayUsageDto localEnergy =
+              LocalStorage.loadEnergyData(energyFile, GatewayUsageDto.class);
 
-          final Stream<EnergyUsageDto> errorStream = sendToServer(localEnergy.stream());
-          final List<EnergyUsageDto> errorItems = errorStream.collect(Collectors.toList());
-          if (!errorItems.isEmpty()) {
-            storeErrorData(errorItems);
-            break;
+          final boolean uploadSuccess = sendToServer(localEnergy);
+          if (uploadSuccess) {
+            energyFile.delete();
           }
         } catch (final Exception ex) {
-          Logger.error(ex, "Can't send backup data");
+          Logger.error(ex, "Can't upload backup data");
           break;
         }
       }
     }
 
-    private Stream<EnergyUsageDto> sendToServer(final Stream<EnergyUsageDto> reportStream) {
-      return reportStream.filter(report -> {
-        final String topic = properties.getEnergyReportTopic();
-        if (report != null && kafkaClient.publish(topic, report)) {
-          Logger.info("Energy report (meter {}) sample are uploaded to cloud", report.getMeterId());
-          return false;
-        }
+    /**
+     * Upload energy usages to cloud and return the result. <code>true</code> mean successful.
+     */
+    private boolean sendToServer(final GatewayUsageDto gatewayUsage) {
+      final String topic = properties.getEnergyReportTopic();
+      if (kafkaClient.publish(topic, gatewayUsage)) {
+        Logger.info("Energy reading (gateway {}, samples count {}) are uploaded to cloud",
+            gatewayUsage.getGatewayId(), gatewayUsage.getMeterUsages().size());
         return true;
-      });
-    }
-
-    private void storeErrorData(final List<EnergyUsageDto> errors) {
-      try {
-        LocalStorage.storeEnergyData(errors);
-        Logger.info("Backup reading data due to network issues");
-      } catch (final Exception ex) {
-        Logger.error(ex, "Can't backup the energy data");
       }
+      return false;
     }
   }
 
