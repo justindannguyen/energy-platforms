@@ -37,11 +37,15 @@ public class EnergyReaderWatchDog implements Runnable {
   public void run() {
     while (running) {
       synchronized (softwareUpgradeLock) {
+        boolean readerIsRunning = true;
         try (ServerSocket checkIfReaderIsRunning = new ServerSocket(energyReaderApplicationPort)) {
-          Logger.info("Reader appliation is not running, awake it up!!!");
-          awakeUpReaderApplication();
+          readerIsRunning = false;
         } catch (final Exception ex) {
           // Reader application is running as usual, going to sleep and check later
+        }
+        if (readerIsRunning == false) {
+          Logger.info("Reader appliation is not running, awake it up!!!");
+          awakeUpReaderApplication();
         }
       }
       try {

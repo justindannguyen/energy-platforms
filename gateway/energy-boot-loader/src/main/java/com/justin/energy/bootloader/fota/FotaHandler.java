@@ -54,7 +54,6 @@ public abstract class FotaHandler implements IMqttMessageListener {
         os.flush();
         Logger.info("Reader application is shutdown");
       }
-      readerApplicationShutdown.close();
     } catch (final IOException ex) {
       // Reader application is not running, fine.
       Logger.info(ex, "Reader application is not running, ok fine");
