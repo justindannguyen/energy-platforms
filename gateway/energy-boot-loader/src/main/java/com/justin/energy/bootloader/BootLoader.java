@@ -20,8 +20,12 @@ import com.justin.energy.common.exception.StartupException;
  * @author tuan3.nguyen@gmail.com
  */
 public class BootLoader {
-  public static void main(final String[] args) throws StartupException {
-    new BootLoader().start();
+  public static void main(final String[] args) {
+    try {
+      new BootLoader().start();
+    } catch (final StartupException ex) {
+      Logger.error(ex, "Could not start the energy bootloader");
+    }
   }
 
   private final String gatewayId = ApplicationProperties.getConfiguredDeviceId();

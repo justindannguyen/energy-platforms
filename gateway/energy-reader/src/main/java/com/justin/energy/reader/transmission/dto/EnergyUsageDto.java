@@ -10,6 +10,8 @@ public class EnergyUsageDto {
   private int registerId;
   private int[] energyUsageResponse;
 
+  public EnergyUsageDto() {}
+
   public EnergyUsageDto(final int registerId, final int[] energyUsageResponse) {
     this.registerId = registerId;
     this.energyUsageResponse = energyUsageResponse;

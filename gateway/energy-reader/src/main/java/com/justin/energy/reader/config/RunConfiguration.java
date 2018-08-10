@@ -15,8 +15,9 @@ public class RunConfiguration {
   private int stopBits;
   private String serialPort;
   private String gatewayId;
-  private int energyReportInterval;
-  private int deviceStatusReportInterval;
+  private int energyReportSecondInterval;
+  private int deviceStatusReportSecondInterval;
+  private int energyReportUploadSecondInterval;
   private String schemaVersion;
   private KafkaConfiguration kafkaConfiguration;
   private List<MeterConfiguration> meterConfigurations;
@@ -29,12 +30,16 @@ public class RunConfiguration {
     return dataBits;
   }
 
-  public int getDeviceStatusReportInterval() {
-    return deviceStatusReportInterval;
+  public int getDeviceStatusReportSecondInterval() {
+    return deviceStatusReportSecondInterval;
   }
 
-  public int getEnergyReportInterval() {
-    return energyReportInterval;
+  public int getEnergyReportSecondInterval() {
+    return energyReportSecondInterval;
+  }
+
+  public int getEnergyReportUploadSecondInterval() {
+    return energyReportUploadSecondInterval;
   }
 
   public String getGatewayId() {
@@ -73,12 +78,16 @@ public class RunConfiguration {
     this.dataBits = dataBits;
   }
 
-  public void setDeviceStatusReportInterval(final int deviceStatusReportInterval) {
-    this.deviceStatusReportInterval = deviceStatusReportInterval;
+  public void setDeviceStatusReportSecondInterval(final int deviceStatusReportSecondInterval) {
+    this.deviceStatusReportSecondInterval = deviceStatusReportSecondInterval;
   }
 
-  public void setEnergyReportInterval(final int energyReportInterval) {
-    this.energyReportInterval = energyReportInterval;
+  public void setEnergyReportSecondInterval(final int energyReportSecondInterval) {
+    this.energyReportSecondInterval = energyReportSecondInterval;
+  }
+
+  public void setEnergyReportUploadSecondInterval(final int energyReportUploadSecondInterval) {
+    this.energyReportUploadSecondInterval = energyReportUploadSecondInterval;
   }
 
   public void setGatewayId(final String gatewayId) {

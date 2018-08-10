@@ -3,6 +3,8 @@
  */
 package com.justin.energy.bootloader.fota;
 
+import java.io.File;
+
 import org.pmw.tinylog.Logger;
 
 import com.justin.energy.common.config.LocalStorage;
@@ -20,7 +22,8 @@ public class ParameterFotaHandler extends FotaHandler {
 
   @Override
   protected void startUpgrade(final FotaDto fotaInfo) {
-    if (!LocalStorage.getRunReaderConfigurationFile().delete()) {
+    final File file = LocalStorage.getRunReaderConfigurationFile();
+    if (file.exists() && !file.delete()) {
       Logger.info("Parameter FOTA fail!!!");
     } else {
       Logger.info("Parameter FOTA successful");

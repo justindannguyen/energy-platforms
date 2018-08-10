@@ -36,7 +36,7 @@ public class SoftwareFotaHandler extends FotaHandler {
       ZipEntry zipEntry = zis.getNextEntry();
       while (zipEntry != null) {
         final String fileName = zipEntry.getName();
-        final File newFile = new File(LocalStorage.getReaderApplicationRoot(), fileName);
+        final File newFile = new File(LocalStorage.getApplicationRoot(), fileName);
         try (FileOutputStream fos = new FileOutputStream(newFile)) {
           int len;
           while ((len = zis.read(buffer)) > 0) {

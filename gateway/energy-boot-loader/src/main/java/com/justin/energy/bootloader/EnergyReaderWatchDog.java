@@ -3,6 +3,9 @@
  */
 package com.justin.energy.bootloader;
 
+import static com.justin.energy.common.config.ApplicationProperties.GATEWAY_ID_ENV_KEY;
+import static com.justin.energy.common.config.ApplicationProperties.getConfiguredDeviceId;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.concurrent.TimeUnit;
@@ -65,7 +68,8 @@ public class EnergyReaderWatchDog implements Runnable {
     final String energyReaderJar = LocalStorage.getApplicationExecutable().getAbsolutePath();
     final String java = System.getenv("JAVA_HOME") + "/bin/java";
     try {
-      ProcessUtils.runCmd(java, "-jar", energyReaderJar);
+      ProcessUtils.runCmd(java, "-jar",
+          String.format("-D%s=%s", GATEWAY_ID_ENV_KEY, getConfiguredDeviceId()), energyReaderJar);
     } catch (final IOException ex) {
       Logger.error("Could not awake up the energy reader application ({})", energyReaderJar);
     }

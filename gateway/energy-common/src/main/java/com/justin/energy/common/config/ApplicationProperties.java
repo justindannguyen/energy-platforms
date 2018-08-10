@@ -11,10 +11,12 @@ import java.util.Properties;
  * @author tuan3.nguyen@gmail.com
  */
 public class ApplicationProperties {
+  public static final String GATEWAY_ID_ENV_KEY = "ENERGY_GATEWAY_ID";
   private static final String FILE = "application.properties";
 
   public static final String getConfiguredDeviceId() {
-    return System.getenv("ENERGY_GATEWAY_ID");
+    final String gatewayId = System.getProperty(GATEWAY_ID_ENV_KEY);
+    return gatewayId != null ? gatewayId : System.getenv("ENERGY_GATEWAY_ID");
   }
 
   protected final Properties props = new Properties();

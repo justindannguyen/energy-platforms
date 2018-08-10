@@ -5,7 +5,6 @@ package com.justin.energy.bootloader.fota;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.InetAddress;
 import java.net.Socket;
 
 import org.eclipse.paho.client.mqttv3.IMqttMessageListener;
@@ -49,14 +48,16 @@ public abstract class FotaHandler implements IMqttMessageListener {
 
   private void shutdownReaderApplication() {
     Logger.info("Shutting down reader application for firmware upgrade");
-    try (Socket readerApplicationShutdown =
-        new Socket(InetAddress.getLocalHost(), readerApplicationPort)) {
+    try (Socket readerApplicationShutdown = new Socket("127.0.0.1", readerApplicationPort)) {
       try (OutputStream os = readerApplicationShutdown.getOutputStream()) {
         os.write(gatewayId.getBytes());
         os.flush();
+        Logger.info("Reader application is shutdown");
       }
+      readerApplicationShutdown.close();
     } catch (final IOException ex) {
       // Reader application is not running, fine.
+      Logger.info(ex, "Reader application is not running, ok fine");
     }
   }
 }

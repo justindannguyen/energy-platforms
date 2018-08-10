@@ -2,10 +2,10 @@
 	"baudRate": 9600,
 	"dataBits": 8,
 	"stopBits": 1,
-	"serialPort": "COM6",
+	"serialPort": "ttyO1",
 	"parity": "EVEN",
-	"energyReportInterval": 60,
-	"deviceStatusReportInterval": 60,
+	"energyReportSecondInterval": 20,
+	"deviceStatusReportSecondInterval": 3600,
 	"gatewayId": "AA-BB-CC-DD-EE-FF-GG",
 	"kafkaConfiguration": {
 		"bootstrapServers":"14.161.34.137:9092"
@@ -17,17 +17,32 @@
 			"energyReportRegisters": [
 				{
 					"registerId": 1,
-					"offset": 3053,
-					"quantity": 24
+					"offset": 3028,
+					"quantity": 8
 				},
 				{
 					"registerId": 2,
-					"offset": 3199,
-					"quantity": 52
+					"offset": 3000,
+					"quantity": 8
+				},
+				{
+					"registerId": 3,
+					"offset": 3078,
+					"quantity": 8
+				},
+				{
+					"registerId": 4,
+					"offset": 3060,
+					"quantity": 2
+				},
+				{
+					"registerId": 5,
+					"offset": 2700,
+					"quantity": 2
 				}
 			],
 			"deviceStatusReportRegisters": []
 		}
 	],
-	"schemaVersion" : "1.0"
+	"schemaVersion" : "1.1"
 }

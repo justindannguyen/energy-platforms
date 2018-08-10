@@ -109,7 +109,7 @@ public class EnergyReader implements Runnable {
       if (backupFiles.length == 0) {
         return;
       }
-      Logger.info("Found {} backup samples, try to upload backup data...");
+      Logger.info("Found {} backup samples, try to upload backup data...", backupFiles.length);
       for (final File energyFile : backupFiles) {
         try {
           final GatewayUsageDto localEnergy =
@@ -143,8 +143,12 @@ public class EnergyReader implements Runnable {
   private static final int initialReportDelay = 20;
   private static final int initialDeviceStatusDelay = 60;
 
-  public static void main(final String[] args) throws StartupException {
-    new EnergyReader().start();
+  public static void main(final String[] args) {
+    try {
+      new EnergyReader().start();
+    } catch (final StartupException ex) {
+      Logger.error(ex, "Could not start the energy reader");
+    }
   }
 
   private final ScheduledExecutorService mainExecutor = Executors.newScheduledThreadPool(1);
@@ -166,14 +170,17 @@ public class EnergyReader implements Runnable {
     } catch (final IOException ex) {
       throw new StartupException("Could not load the application properties file", ex);
     }
+    final int applicationLockPort = properties.getApplicationLockPort();
     try {
-      applicationLock = new ServerSocket(properties.getApplicationLockPort());
+      applicationLock = new ServerSocket(applicationLockPort);
       final Thread shutdownThread = new Thread(this);
       shutdownThread.setName("Shutdown Listener");
       shutdownThread.setDaemon(true);
       shutdownThread.start();
+      Logger.info("Application is now running at {}", applicationLockPort);
     } catch (final IOException ex) {
-      throw new StartupException("Application is already running");
+      throw new StartupException(
+          String.format("Application is already running at port %s", applicationLockPort), ex);
     }
   }
 
@@ -192,6 +199,10 @@ public class EnergyReader implements Runnable {
             new BufferedReader(new InputStreamReader(bootloader.getInputStream()))) {
           final String shutdownPassword = br.readLine();
           shutdown = getGatewayId().equals(shutdownPassword);
+          if (!shutdown) {
+            Logger.warn("Receive shutdown request {}, but with incorrect data {}", shutdownPassword,
+                getGatewayId());
+          }
         }
       } while (shutdown == false);
     } catch (final IOException ex) {
@@ -212,13 +223,22 @@ public class EnergyReader implements Runnable {
     connectWithBroker();
     connectWithMeters();
     mainExecutor.scheduleWithFixedDelay(new EnergyWorker(), initialReportDelay,
-        runConfiguration.getEnergyReportInterval(), TimeUnit.SECONDS);
+        runConfiguration.getEnergyReportSecondInterval(), TimeUnit.SECONDS);
     mainExecutor.scheduleWithFixedDelay(() -> reportDeviceStatus(), initialDeviceStatusDelay,
-        runConfiguration.getDeviceStatusReportInterval(), TimeUnit.SECONDS);
+        runConfiguration.getDeviceStatusReportSecondInterval(), TimeUnit.SECONDS);
   }
 
   public void stop() throws ShutdownException {
     boolean error = false;
+    // Shutdown the tasks and wait for uncompleted tasks
+    mainExecutor.shutdown();
+    try {
+      mainExecutor.awaitTermination(30, TimeUnit.SECONDS);
+    } catch (final InterruptedException ex) {
+      error = true;
+      Logger.error(ex);
+    }
+
     // Disconnect modbus
     try {
       meterModbusMaster.disconnect();
@@ -229,14 +249,6 @@ public class EnergyReader implements Runnable {
     // Disconnect from MQTT
     try {
       kafkaClient.disconnect();
-    } catch (final InterruptedException ex) {
-      error = true;
-      Logger.error(ex);
-    }
-    // Shutdown the tasks and wait for uncompleted tasks
-    mainExecutor.shutdown();
-    try {
-      mainExecutor.awaitTermination(30, TimeUnit.SECONDS);
     } catch (final InterruptedException ex) {
       error = true;
       Logger.error(ex);
@@ -293,7 +305,8 @@ public class EnergyReader implements Runnable {
       }
 
       // Store configuration at local for next run
-      LocalStorage.storeConfigs(config);
+      final File configFile = LocalStorage.storeConfigs(config);
+      Logger.info("Stored configuration file at {}", configFile.getAbsolutePath());
       return config;
     } catch (final Exception ex) {
       throw new StartupException("Could not download the run configuration from cloud", ex);

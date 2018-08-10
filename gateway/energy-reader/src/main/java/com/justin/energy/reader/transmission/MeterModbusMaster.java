@@ -64,8 +64,9 @@ public class MeterModbusMaster implements Runnable {
 
   public int[] readHoldingRegister(final int meterId, final HoldingRegister register) {
     try {
+      // -1 is for relative address, refer http://www.simplymodbus.ca/TCP.htm
       if (modbusMaster.isConnected()) {
-        return modbusMaster.readHoldingRegisters(meterId, register.getOffset(),
+        return modbusMaster.readHoldingRegisters(meterId, register.getOffset() - 1,
             register.getQuantity());
       }
     } catch (final Exception ex) {

@@ -6,11 +6,9 @@ package com.justin.energy.common.config;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -34,31 +32,32 @@ public class LocalStorage {
   }
 
   public static File getApplicationExecutable() {
-    return new File(getReaderApplicationRoot(), readerApplicationName + ".jar");
+    return new File(getApplicationRoot(), readerApplicationName + ".jar");
   }
 
   public static File getApplicationRoot() {
-    return new File(System.getProperty("user.home"), ".energy");
+    final String energyHome = System.getenv("ENERGY_HOME");
+    return new File(energyHome != null ? energyHome : System.getProperty("user.home"));
   }
 
   public static File getConfigurationRoot() {
-    return new File(getApplicationRoot(), runConfigurationFolderName);
+    return new File(getStorageRoot(), runConfigurationFolderName);
   }
 
   public static File getEnergyDataRoot() {
-    return new File(getApplicationRoot(), applocationDataFolderName);
+    return new File(getStorageRoot(), applocationDataFolderName);
   }
 
   public static File getFotaRoot() {
-    return new File(getApplicationRoot(), applicationFotaFolderName);
-  }
-
-  public static File getReaderApplicationRoot() {
-    return new File(getApplicationRoot(), readerApplicationName);
+    return new File(getStorageRoot(), applicationFotaFolderName);
   }
 
   public static File getRunReaderConfigurationFile() {
     return new File(getConfigurationRoot(), runReaderConfigurationFileName);
+  }
+
+  public static File getStorageRoot() {
+    return new File(getApplicationRoot(), ".energy");
   }
 
   public static <T> T loadConfigs(final Class<T> clazz)
@@ -77,13 +76,15 @@ public class LocalStorage {
     return jsonMapper.readValue(energyFile, clazz);
   }
 
-  public static void storeConfigs(final Object configuration)
+  public static File storeConfigs(final Object configuration)
       throws JsonGenerationException, JsonMappingException, IOException {
     final File root = getConfigurationRoot();
     if (!root.exists()) {
       root.mkdirs();
     }
-    jsonMapper.writeValue(getRunReaderConfigurationFile(), configuration);
+    final File file = getRunReaderConfigurationFile();
+    jsonMapper.writeValue(file, configuration);
+    return file;
   }
 
   public static <T> void storeEnergyData(final T energies)
