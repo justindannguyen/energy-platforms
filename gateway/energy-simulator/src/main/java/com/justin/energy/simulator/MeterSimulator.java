@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2018, Justin Nguyen
  */
-package com.justin.energy.reader;
+package com.justin.energy.simulator;
 
 import org.pmw.tinylog.Logger;
 
@@ -16,7 +16,7 @@ import jssc.SerialPortException;
 public class MeterSimulator {
   public static void main(final String[] args) {
     // In the constructor pass the name of the port with which we work
-    final SerialPort serialPort = new SerialPort("COM4");
+    final SerialPort serialPort = new SerialPort("COM11");
     try {
       // Open port
       serialPort.openPort();

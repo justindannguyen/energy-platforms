@@ -8,3 +8,13 @@ Provide the energy reading for all kind of meters which have modbus RTU support.
 * [x] Auto reconnect both modbus + mqtt
 * [ ] Separate modbus & kafka connection
 * [ ] Checksum when download new firmware file.
+
+## Debug Options
+### Using jstatd
+```
+jstatd -J-Djava.security.policy=.jstatd.all.policy -J-Djava.rmi.server.hostname=10.82.83.117 -J-Djava.rmi.server.logCalltrue
+```
+### JMX
+```
+-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=9000 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Djava.rmi.server.hostname=192.168.1.104
+```

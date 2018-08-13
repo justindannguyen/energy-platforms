@@ -18,9 +18,9 @@
 			<artifactId>jlibmodbus</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.scream3r</groupId>
-			<artifactId>jssc</artifactId>
-		</dependency>
+      <groupId>org.scream3r</groupId>
+      <artifactId>jssc</artifactId>
+    </dependency>
 		<dependency>
 			<groupId>com.justin</groupId>
 			<artifactId>energy-common</artifactId>
@@ -47,6 +47,7 @@
 						</goals>
 						<configuration>
 							<shadedArtifactAttached>true</shadedArtifactAttached>
+							<finalName>${project.artifactId}</finalName>
 							<transformers>
 								<transformer
 									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">

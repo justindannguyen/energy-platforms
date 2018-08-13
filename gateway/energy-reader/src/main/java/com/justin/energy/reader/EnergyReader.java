@@ -19,6 +19,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.pmw.tinylog.Configurator;
 import org.pmw.tinylog.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -195,6 +196,7 @@ public class EnergyReader implements Runnable {
       boolean shutdown = false;
       do {
         final Socket bootloader = applicationLock.accept();
+        Logger.info("Receive directive from bootloader");
         try (BufferedReader br =
             new BufferedReader(new InputStreamReader(bootloader.getInputStream()))) {
           final String shutdownPassword = br.readLine();
@@ -260,6 +262,9 @@ public class EnergyReader implements Runnable {
       error = true;
       Logger.error(ex);
     }
+
+    // if tinylog.writingthread = true then we have to shutdown it manually
+    Configurator.shutdownWritingThread(true);
     if (error) {
       throw new ShutdownException("Fail during shutdown process");
     }

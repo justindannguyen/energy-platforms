@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.List;
 
 import org.pmw.tinylog.Logger;
 
@@ -16,12 +17,13 @@ import com.justin.energy.common.config.LocalStorage;
  * @author tuan3.nguyen@gmail.com
  */
 public interface ProcessUtils {
-  public static void runCmd(final boolean printError, final String... params) throws IOException {
-    if (params == null || params.length == 0) {
+  public static void runCmd(final boolean printError, final List<String> params)
+      throws IOException {
+    if (params == null || params.size() == 0) {
       throw new IllegalArgumentException("command is null or empty");
     }
-    final Process process = new ProcessBuilder(Arrays.asList(params))
-        .directory(LocalStorage.getApplicationRoot()).start();
+    final Process process =
+        new ProcessBuilder(params).directory(LocalStorage.getApplicationRoot()).start();
     if (printError) {
       final BufferedReader reader =
           new BufferedReader(new InputStreamReader(process.getErrorStream()));

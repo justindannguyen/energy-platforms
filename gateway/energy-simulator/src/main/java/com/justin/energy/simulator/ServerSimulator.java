@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2018, Justin Nguyen
  */
-package com.justin.energy.reader;
+package com.justin.energy.simulator;
 
 import org.eclipse.paho.client.mqttv3.MqttException;
 

@@ -7,7 +7,12 @@ import static com.justin.energy.common.config.ApplicationProperties.GATEWAY_ID_E
 import static com.justin.energy.common.config.ApplicationProperties.getConfiguredDeviceId;
 
 import java.io.IOException;
+import java.lang.management.ManagementFactory;
+import java.lang.management.RuntimeMXBean;
 import java.net.ServerSocket;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.pmw.tinylog.Logger;
 
@@ -66,10 +71,34 @@ public class EnergyReaderWatchDog implements Runnable {
     final String energyReaderJar = LocalStorage.getApplicationExecutable().getAbsolutePath();
     final String java = System.getenv("JAVA_HOME") + "/bin/java";
     try {
-      ProcessUtils.runCmd(true, java, "-jar",
-          String.format("-D%s=%s", GATEWAY_ID_ENV_KEY, getConfiguredDeviceId()), energyReaderJar);
+      final List<String> arguments = new ArrayList<>();
+      arguments.add(java);
+      arguments.add(String.format("-D%s=%s", GATEWAY_ID_ENV_KEY, getConfiguredDeviceId()));
+      arguments.addAll(getDebugOptions());
+      arguments.add("-jar");
+      arguments.add(energyReaderJar);
+      ProcessUtils.runCmd(true, arguments);
     } catch (final IOException ex) {
       Logger.error("Could not awake up the energy reader application ({})", energyReaderJar);
     }
+  }
+
+  /**
+   * <p>
+   * Get all the MX debug options from current bootloader process. It can be reused and passed to
+   * energy software.
+   *
+   * <p>
+   * Port collision already taken care.
+   */
+  private List<String> getDebugOptions() {
+    final RuntimeMXBean runtimeMxBean = ManagementFactory.getRuntimeMXBean();
+    return runtimeMxBean.getInputArguments().stream().map(input -> {
+      if (!input.contains("com.sun.management.jmxremote.port")) {
+        return input;
+      }
+      final String[] inputPair = input.split("=");
+      return String.format("%s=%s", inputPair[0], Integer.valueOf(inputPair[1]) + 1);
+    }).collect(Collectors.toList());
   }
 }

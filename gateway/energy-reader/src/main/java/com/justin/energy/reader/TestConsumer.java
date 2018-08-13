@@ -3,7 +3,6 @@
  */
 package com.justin.energy.reader;
 
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.time.Duration;
@@ -17,7 +16,6 @@ import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
-import org.pmw.tinylog.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.justin.energy.reader.transmission.dto.EnergyUsageDto;
@@ -40,7 +38,7 @@ public class TestConsumer {
         continue;
       }
 
-      consumerRecords.forEach(record -> printKafka(record.value()));
+      consumerRecords.forEach(record -> printKafka(record.value(), record.offset()));
 
       consumer.commitAsync();
     }
@@ -60,10 +58,12 @@ public class TestConsumer {
     consumer.subscribe(Collections.singletonList("energysolution_rawreading"));
     return consumer;
   }
-  private static void printKafka(final String value) {
+
+  private static void printKafka(final String value, final long offset) {
     try {
       final GatewayUsageDto readValue = objectMapper.readValue(value, GatewayUsageDto.class);
-      final MeterUsageDto meterUsageDto = readValue.getMeterUsages().get(1);
+      final MeterUsageDto meterUsageDto =
+          readValue.getMeterUsages().get(readValue.getMeterUsages().size() - 1);
       final List<EnergyUsageDto> energyUsages = meterUsageDto.getEnergyUsages();
       if (energyUsages.isEmpty()) {
         return;
@@ -73,8 +73,8 @@ public class TestConsumer {
       final ByteBuffer allocate = ByteBuffer.allocate(4);
       allocate.putShort((short) byteArray[0]);
       allocate.putShort((short) byteArray[1]);
-      Logger.info("Voltage {}", allocate.order(ByteOrder.BIG_ENDIAN).getFloat(0));
-    } catch (final IOException ex) {
+      System.out.println(offset + " Voltage " + allocate.order(ByteOrder.BIG_ENDIAN).getFloat(0));
+    } catch (final Exception ex) {
       ex.printStackTrace();
     }
   }
