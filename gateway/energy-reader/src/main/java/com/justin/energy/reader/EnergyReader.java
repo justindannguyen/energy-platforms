@@ -26,6 +26,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.intelligt.modbus.jlibmodbus.exception.ModbusIOException;
 import com.intelligt.modbus.jlibmodbus.serial.SerialPortException;
 import com.justin.energy.common.config.LocalStorage;
+import com.justin.energy.common.dto.DeviceStatusDto;
+import com.justin.energy.common.dto.EnergyUsageDto;
+import com.justin.energy.common.dto.GatewayUsageDto;
+import com.justin.energy.common.dto.MeterUsageDto;
 import com.justin.energy.common.exception.ShutdownException;
 import com.justin.energy.common.exception.StartupException;
 import com.justin.energy.reader.config.ApplicationProperties;
@@ -35,10 +39,6 @@ import com.justin.energy.reader.config.MeterConfiguration.HoldingRegister;
 import com.justin.energy.reader.config.RunConfiguration;
 import com.justin.energy.reader.transmission.KafkaClient;
 import com.justin.energy.reader.transmission.MeterModbusMaster;
-import com.justin.energy.reader.transmission.dto.DeviceStatusDto;
-import com.justin.energy.reader.transmission.dto.EnergyUsageDto;
-import com.justin.energy.reader.transmission.dto.GatewayUsageDto;
-import com.justin.energy.reader.transmission.dto.MeterUsageDto;
 
 /**
  * @author tuan3.nguyen@gmail.com

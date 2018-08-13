@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2018, Justin Nguyen
  */
-package com.justin.energy.reader;
+package com.justin.energy.simulator;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -18,9 +18,9 @@ import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.justin.energy.reader.transmission.dto.EnergyUsageDto;
-import com.justin.energy.reader.transmission.dto.GatewayUsageDto;
-import com.justin.energy.reader.transmission.dto.MeterUsageDto;
+import com.justin.energy.common.dto.EnergyUsageDto;
+import com.justin.energy.common.dto.GatewayUsageDto;
+import com.justin.energy.common.dto.MeterUsageDto;
 
 /**
  * @author tuan3.nguyen@gmail.com

@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2018, Justin Nguyen
  */
-package com.justin.energy.reader.transmission.dto;
+package com.justin.energy.common.dto;
 
 import java.util.List;
 
