@@ -49,7 +49,7 @@ public abstract class FotaHandler implements IMqttMessageListener {
 
   private void shutdownReaderApplication() {
     Logger.info("Shutting down reader application for firmware upgrade");
-    try (Socket readerApplicationShutdown = new Socket("127.0.0.1", readerApplicationPort)) {
+    try (Socket readerApplicationShutdown = new Socket("localhost", readerApplicationPort)) {
       try (OutputStream os = readerApplicationShutdown.getOutputStream()) {
         os.write(gatewayId.getBytes());
         os.flush();
@@ -57,7 +57,7 @@ public abstract class FotaHandler implements IMqttMessageListener {
       }
     } catch (final IOException ex) {
       // Reader application is not running, fine.
-      Logger.info(ex, "Reader application is not running, ok fine");
+      Logger.info(ex, "Reader application is not running on {}, ok fine", readerApplicationPort);
     }
   }
 }

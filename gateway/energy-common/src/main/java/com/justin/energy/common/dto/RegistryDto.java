@@ -6,19 +6,19 @@ package com.justin.energy.common.dto;
 /**
  * @author tuan3.nguyen@gmail.com
  */
-public class EnergyUsageDto {
+public class RegistryDto {
   private int registerId;
-  private int[] energyUsageResponse;
+  private int[] registryValues;
 
-  public EnergyUsageDto() {}
+  public RegistryDto() {}
 
-  public EnergyUsageDto(final int registerId, final int[] energyUsageResponse) {
+  public RegistryDto(final int registerId, final int[] energyUsageResponse) {
     this.registerId = registerId;
-    this.energyUsageResponse = energyUsageResponse;
+    this.registryValues = energyUsageResponse;
   }
 
   public int[] getEnergyUsageResponse() {
-    return energyUsageResponse;
+    return registryValues;
   }
 
   public int getRegisterId() {
@@ -26,7 +26,7 @@ public class EnergyUsageDto {
   }
 
   public void setEnergyUsageResponse(final int[] energyUsageResponse) {
-    this.energyUsageResponse = energyUsageResponse;
+    this.registryValues = energyUsageResponse;
   }
 
   public void setRegisterId(final int registerId) {

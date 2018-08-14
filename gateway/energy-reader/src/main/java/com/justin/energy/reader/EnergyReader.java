@@ -27,7 +27,7 @@ import com.intelligt.modbus.jlibmodbus.exception.ModbusIOException;
 import com.intelligt.modbus.jlibmodbus.serial.SerialPortException;
 import com.justin.energy.common.config.LocalStorage;
 import com.justin.energy.common.dto.DeviceStatusDto;
-import com.justin.energy.common.dto.EnergyUsageDto;
+import com.justin.energy.common.dto.RegistryDto;
 import com.justin.energy.common.dto.GatewayUsageDto;
 import com.justin.energy.common.dto.MeterUsageDto;
 import com.justin.energy.common.exception.ShutdownException;
@@ -80,7 +80,7 @@ public class EnergyReader implements Runnable {
 
     private MeterUsageDto readFromMeter(final MeterConfiguration config) {
       final int meterId = config.getMeterId();
-      final Stream<EnergyUsageDto> readingFromRegisters = config.getEnergyReportRegisters().stream()
+      final Stream<RegistryDto> readingFromRegisters = config.getEnergyReportRegisters().stream()
           .map(register -> readFromRegister(register, meterId)).filter(report -> report != null);
 
       final MeterUsageDto meterUsage = new MeterUsageDto();
@@ -98,10 +98,10 @@ public class EnergyReader implements Runnable {
       return gatewayUsage;
     }
 
-    private EnergyUsageDto readFromRegister(final HoldingRegister register, final int meterId) {
+    private RegistryDto readFromRegister(final HoldingRegister register, final int meterId) {
       final int[] registerData = meterModbusMaster.readHoldingRegister(meterId, register);
       return registerData == null ? null
-          : new EnergyUsageDto(register.getRegisterId(), registerData);
+          : new RegistryDto(register.getRegisterId(), registerData);
     }
 
     private void sendBackupReading() {

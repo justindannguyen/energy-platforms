@@ -4,6 +4,7 @@
 package com.justin.energy.bootloader;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.pmw.tinylog.Logger;
@@ -59,8 +60,7 @@ public class BootLoader {
       mqttConfig.setBrokerPassword(properties.getBrokerPassword());
       mqttConfig.setBrokerUrl(properties.getBrokerUrl());
       mqttConfig.setBrokerUsername(properties.getBrokerUsername());
-      mqttClient = new WebsocketOverMqttClient(
-          String.format("%s-%s", getClass().getSimpleName(), gatewayId), mqttConfig);
+      mqttClient = new WebsocketOverMqttClient(UUID.randomUUID().toString(), mqttConfig);
       mqttClient.connect();
 
       final String fotaParameterTopic =

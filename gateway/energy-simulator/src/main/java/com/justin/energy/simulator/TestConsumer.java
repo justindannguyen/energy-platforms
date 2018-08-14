@@ -18,7 +18,7 @@ import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.justin.energy.common.dto.EnergyUsageDto;
+import com.justin.energy.common.dto.RegistryDto;
 import com.justin.energy.common.dto.GatewayUsageDto;
 import com.justin.energy.common.dto.MeterUsageDto;
 
@@ -46,7 +46,7 @@ public class TestConsumer {
 
   private static Consumer<Long, String> createConsumer() {
     final Properties props = new Properties();
-    props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "192.168.1.31:9092");
+    props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "192.168.1.11:9092");
     props.put(ConsumerConfig.GROUP_ID_CONFIG, "KafkaExampleConsumer");
     props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, LongDeserializer.class.getName());
     props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
@@ -64,11 +64,11 @@ public class TestConsumer {
       final GatewayUsageDto readValue = objectMapper.readValue(value, GatewayUsageDto.class);
       final MeterUsageDto meterUsageDto =
           readValue.getMeterUsages().get(readValue.getMeterUsages().size() - 1);
-      final List<EnergyUsageDto> energyUsages = meterUsageDto.getEnergyUsages();
+      final List<RegistryDto> energyUsages = meterUsageDto.getEnergyUsages();
       if (energyUsages.isEmpty()) {
         return;
       }
-      final EnergyUsageDto energyUsageDto = energyUsages.get(0);
+      final RegistryDto energyUsageDto = energyUsages.get(0);
       final int[] byteArray = energyUsageDto.getEnergyUsageResponse();
       final ByteBuffer allocate = ByteBuffer.allocate(4);
       allocate.putShort((short) byteArray[0]);

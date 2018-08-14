@@ -98,7 +98,7 @@ public class WebsocketOverMqttClient implements MqttCallback, Runnable {
 
   @Override
   public void connectionLost(final Throwable exception) {
-    Logger.error("Connection lost with broker, detail {}", exception.getMessage());
+    Logger.error(exception, "Connection lost with broker");
     synchronized (watchDog) {
       watchDog.notify();
     }
