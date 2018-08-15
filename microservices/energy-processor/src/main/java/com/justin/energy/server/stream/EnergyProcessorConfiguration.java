@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2018, Justin Nguyen
  */
-package com.justin.energyprocessor;
+package com.justin.energy.server.stream;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,11 +12,11 @@ import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.messaging.Processor;
 import org.springframework.integration.annotation.Transformer;
 
-import com.justin.energyprocessor.dto.cloud.RegisterDefinitionDto;
-import com.justin.energyprocessor.dto.cloud.RegisterValueDto;
-import com.justin.energyprocessor.dto.device.GatewayUsageDto;
-import com.justin.energyprocessor.dto.device.MeterUsageDto;
-import com.justin.energyprocessor.dto.device.RegisterDto;
+import com.justin.energy.server.stream.dto.cloud.RegisterDefinitionDto;
+import com.justin.energy.server.stream.dto.cloud.RegisterValueDto;
+import com.justin.energy.server.stream.dto.device.GatewayUsageDto;
+import com.justin.energy.server.stream.dto.device.MeterUsageDto;
+import com.justin.energy.server.stream.dto.device.RegisterDto;
 
 /**
  * @author tuan3.nguyen@gmail.com

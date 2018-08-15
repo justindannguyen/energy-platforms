@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2018, Justin Nguyen
  */
-package com.justin.energyprocessor;
+package com.justin.energy.server.stream;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;

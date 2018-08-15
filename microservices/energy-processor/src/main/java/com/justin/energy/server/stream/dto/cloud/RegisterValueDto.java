@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2018, Justin Nguyen
  */
-package com.justin.energyprocessor.dto.cloud;
+package com.justin.energy.server.stream.dto.cloud;
 
 /**
  * @author tuan3.nguyen@gmail.com

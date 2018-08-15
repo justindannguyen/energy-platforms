@@ -1,4 +1,4 @@
-package com.justin.energyprocessor;
+package com.justin.energy.server;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class EnergyProcessorApplicationTests {
+public class EnergyEurekaServerApplicationTests {
 
 	@Test
 	public void contextLoads() {

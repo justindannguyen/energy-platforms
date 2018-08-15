@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2018, Justin Nguyen
  */
-package com.justin.energyprocessor.dto.device;
+package com.justin.energy.server.stream.dto.device;
 
 import java.util.List;
 
