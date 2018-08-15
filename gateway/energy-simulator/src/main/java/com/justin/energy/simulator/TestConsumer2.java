@@ -3,8 +3,11 @@
  */
 package com.justin.energy.simulator;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.time.Duration;
 import java.util.Collections;
+import java.util.List;
 import java.util.Properties;
 
 import org.apache.kafka.clients.consumer.Consumer;
@@ -15,11 +18,14 @@ import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.justin.energy.common.dto.GatewayUsageDto;
+import com.justin.energy.common.dto.MeterUsageDto;
+import com.justin.energy.common.dto.RegisterDto;
 
 /**
  * @author tuan3.nguyen@gmail.com
  */
-public class TestConsumer {
+public class TestConsumer2 {
   private static final ObjectMapper objectMapper = new ObjectMapper();
 
   public static void main(final String[] args) {
@@ -49,11 +55,27 @@ public class TestConsumer {
     final Consumer<Long, String> consumer = new KafkaConsumer<>(props);
 
     // Subscribe to the topic.
-    consumer.subscribe(Collections.singletonList("energysolution_parsedreading"));
+    consumer.subscribe(Collections.singletonList("energysolution_rawreading"));
     return consumer;
   }
 
   private static void printKafka(final String value, final long offset) {
-    System.out.println(String.format("offset %s %s", offset, value));
+    try {
+      final GatewayUsageDto readValue = objectMapper.readValue(value, GatewayUsageDto.class);
+      final MeterUsageDto meterUsageDto =
+          readValue.getMeterUsages().get(readValue.getMeterUsages().size() - 1);
+      final List<RegisterDto> energyUsages = meterUsageDto.getEnergyUsages();
+      if (energyUsages.isEmpty()) {
+        return;
+      }
+      final RegisterDto energyUsageDto = energyUsages.get(0);
+      final int[] byteArray = energyUsageDto.getRegisterValues();
+      final ByteBuffer allocate = ByteBuffer.allocate(4);
+      allocate.putShort((short) byteArray[0]);
+      allocate.putShort((short) byteArray[1]);
+      System.out.println(offset + " Voltage " + allocate.order(ByteOrder.BIG_ENDIAN).getFloat(0));
+    } catch (final Exception ex) {
+      ex.printStackTrace();
+    }
   }
 }

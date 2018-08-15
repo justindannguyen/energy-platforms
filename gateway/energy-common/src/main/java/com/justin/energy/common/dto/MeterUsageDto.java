@@ -11,9 +11,9 @@ import java.util.List;
 public class MeterUsageDto {
   private int meterId;
 
-  private List<RegistryDto> energyUsages;
+  private List<RegisterDto> energyUsages;
 
-  public List<RegistryDto> getEnergyUsages() {
+  public List<RegisterDto> getEnergyUsages() {
     return energyUsages;
   }
 
@@ -21,7 +21,7 @@ public class MeterUsageDto {
     return meterId;
   }
 
-  public void setEnergyUsages(final List<RegistryDto> energyUsages) {
+  public void setEnergyUsages(final List<RegisterDto> energyUsages) {
     this.energyUsages = energyUsages;
   }
 
