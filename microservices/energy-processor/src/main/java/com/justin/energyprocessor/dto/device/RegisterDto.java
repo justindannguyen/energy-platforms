@@ -6,15 +6,15 @@ package com.justin.energyprocessor.dto.device;
 /**
  * @author tuan3.nguyen@gmail.com
  */
-public class RegistryDto {
+public class RegisterDto {
   private int registerId;
   private int[] registerValues;
 
-  public RegistryDto() {}
+  public RegisterDto() {}
 
-  public RegistryDto(final int registerId, final int[] energyUsageResponse) {
+  public RegisterDto(final int registerId, final int[] registerValues) {
     this.registerId = registerId;
-    this.registerValues = energyUsageResponse;
+    this.registerValues = registerValues;
   }
 
   public int getRegisterId() {

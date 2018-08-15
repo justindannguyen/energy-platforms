@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.slf4j.LoggerFactory;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.messaging.Processor;
 import org.springframework.integration.annotation.Transformer;
@@ -17,19 +16,16 @@ import com.justin.energyprocessor.dto.cloud.RegisterDefinitionDto;
 import com.justin.energyprocessor.dto.cloud.RegisterValueDto;
 import com.justin.energyprocessor.dto.device.GatewayUsageDto;
 import com.justin.energyprocessor.dto.device.MeterUsageDto;
-import com.justin.energyprocessor.dto.device.RegistryDto;
+import com.justin.energyprocessor.dto.device.RegisterDto;
 
 /**
  * @author tuan3.nguyen@gmail.com
  */
 @EnableBinding(Processor.class)
 public class EnergyProcessorConfiguration {
-  private static final org.slf4j.Logger log =
-      LoggerFactory.getLogger(EnergyProcessorConfiguration.class);
 
   @Transformer(inputChannel = Processor.INPUT, outputChannel = Processor.OUTPUT)
   public Map<String, Object> transform(final GatewayUsageDto gatewayUsages) {
-    log.info("Receive the energy raw data to transform, gateway {}", gatewayUsages.getGatewayId());
     final Map<String, Object> usages = new HashMap<>();
     usages.put("gatewayId", gatewayUsages.getGatewayId());
     usages.put("energyUsages", gatewayUsages.getMeterUsages().stream().map(this::parseMeterUsage)
@@ -69,7 +65,7 @@ public class EnergyProcessorConfiguration {
     return definition;
   }
 
-  private Map<String, Object> parseEnergyParameters(final RegistryDto meterUsage) {
+  private Map<String, Object> parseEnergyParameters(final RegisterDto meterUsage) {
     final int registerId = meterUsage.getRegisterId();
     final RegisterDefinitionDto registerDefinition = getRegisterDefinition(registerId);
     final int[] registerValues = meterUsage.getRegisterValues();
