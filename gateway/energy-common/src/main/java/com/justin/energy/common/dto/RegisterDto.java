@@ -12,9 +12,9 @@ public class RegisterDto {
 
   public RegisterDto() {}
 
-  public RegisterDto(final int registerId, final int[] energyUsageResponse) {
+  public RegisterDto(final int registerId, final int[] registerValues) {
     this.registerId = registerId;
-    this.registerValues = energyUsageResponse;
+    this.registerValues = registerValues;
   }
 
   public int getRegisterId() {

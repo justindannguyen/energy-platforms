@@ -14,14 +14,10 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 /**
  * @author tuan3.nguyen@gmail.com
  */
 public class TestConsumer {
-  private static final ObjectMapper objectMapper = new ObjectMapper();
-
   public static void main(final String[] args) {
     final Consumer<Long, String> consumer = createConsumer();
 
