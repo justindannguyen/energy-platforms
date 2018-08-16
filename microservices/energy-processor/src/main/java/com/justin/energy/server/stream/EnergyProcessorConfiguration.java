@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.cloud.sleuth.annotation.NewSpan;
+import org.springframework.cloud.sleuth.annotation.SpanTag;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.messaging.Processor;
 import org.springframework.integration.annotation.Transformer;
@@ -25,7 +27,9 @@ import com.justin.energy.server.stream.dto.device.RegisterDto;
 public class EnergyProcessorConfiguration {
 
   @Transformer(inputChannel = Processor.INPUT, outputChannel = Processor.OUTPUT)
-  public Map<String, Object> transform(final GatewayUsageDto gatewayUsages) {
+  @NewSpan("transform")
+  public Map<String, Object> transform(
+      @SpanTag(key = "gatewayId", expression = "gatewayId") final GatewayUsageDto gatewayUsages) {
     final Map<String, Object> usages = new HashMap<>();
     usages.put("gatewayId", gatewayUsages.getGatewayId());
     usages.put("energyUsages", gatewayUsages.getMeterUsages().stream().map(this::parseMeterUsage)

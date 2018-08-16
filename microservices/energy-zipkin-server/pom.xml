@@ -5,15 +5,15 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.justin</groupId>
-	<artifactId>energy-processor</artifactId>
+	<artifactId>energy-zipkin-server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>energy-processor</name>
+	<name>energy-zipkin-server</name>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.0.4.RELEASE</version>
+		<version>1.5.15.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
@@ -21,42 +21,34 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
-		<spring-cloud.version>Finchley.SR1</spring-cloud.version>
+		<spring-cloud.version>Edgware.SR4</spring-cloud.version>
 	</properties>
 
 	<dependencies>
-		<!-- Kafka processing -->
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-stream-binder-kafka</artifactId>
-		</dependency>
-
-		<!-- For testing support -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-stream-test-support</artifactId>
-			<scope>test</scope>
-		</dependency>
-
 		<!-- For service lookup -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
+		<!-- For testing -->
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
 		</dependency>
-
 		<!-- For zipkin tracing -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-zipkin</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.zipkin.java</groupId>
+			<artifactId>zipkin-server</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.zipkin.java</groupId>
+			<artifactId>zipkin-autoconfigure-ui</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 

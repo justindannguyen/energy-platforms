@@ -9,5 +9,6 @@
 	<modules>
 		<module>energy-processor</module>
 		<module>energy-eureka-server</module>
+		<module>energy-zipkin-server</module>
 	</modules>
 </project>
