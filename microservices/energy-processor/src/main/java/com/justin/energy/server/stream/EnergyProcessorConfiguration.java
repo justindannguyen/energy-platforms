@@ -4,6 +4,7 @@
 package com.justin.energy.server.stream;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -32,6 +33,8 @@ public class EnergyProcessorConfiguration {
       @SpanTag(key = "gatewayId", expression = "gatewayId") final GatewayUsageDto gatewayUsages) {
     final Map<String, Object> usages = new HashMap<>();
     usages.put("gatewayId", gatewayUsages.getGatewayId());
+    // FIXME retrieve date from device.
+    usages.put("date", new Date());
     usages.put("energyUsages", gatewayUsages.getMeterUsages().stream().map(this::parseMeterUsage)
         .collect(Collectors.toList()));
 
