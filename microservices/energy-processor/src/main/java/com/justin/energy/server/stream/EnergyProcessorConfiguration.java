@@ -6,6 +6,7 @@ package com.justin.energy.server.stream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -13,7 +14,7 @@ import org.springframework.cloud.sleuth.annotation.NewSpan;
 import org.springframework.cloud.sleuth.annotation.SpanTag;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.messaging.Processor;
-import org.springframework.integration.annotation.Transformer;
+import org.springframework.integration.annotation.Splitter;
 
 import com.justin.energy.server.stream.dto.cloud.RegisterDefinitionDto;
 import com.justin.energy.server.stream.dto.cloud.RegisterValueDto;
@@ -27,18 +28,17 @@ import com.justin.energy.server.stream.dto.device.RegisterDto;
 @EnableBinding(Processor.class)
 public class EnergyProcessorConfiguration {
 
-  @Transformer(inputChannel = Processor.INPUT, outputChannel = Processor.OUTPUT)
+  @Splitter(inputChannel = Processor.INPUT, outputChannel = Processor.OUTPUT)
   @NewSpan("transformToStream")
-  public Map<String, Object> transform(
+  public List<Map<String, Object>> transform(
       @SpanTag(key = "gatewayId", expression = "gatewayId") final GatewayUsageDto gatewayUsages) {
-    final Map<String, Object> usages = new HashMap<>();
-    usages.put("gatewayId", gatewayUsages.getGatewayId());
-    // FIXME retrieve date from device.
-    usages.put("date", new Date());
-    usages.put("energyUsages", gatewayUsages.getMeterUsages().stream().map(this::parseMeterUsage)
-        .collect(Collectors.toList()));
-
-    return usages;
+    final Date currentDate = new Date();
+    return gatewayUsages.getMeterUsages().stream().map(this::parseMeterUsage).map(meterUsage -> {
+      meterUsage.put("gatewayId", gatewayUsages.getGatewayId());
+      // FIXME retrieve date from device.
+      meterUsage.put("date", currentDate);
+      return meterUsage;
+    }).collect(Collectors.toList());
   }
 
   private RegisterDefinitionDto getRegisterDefinition(final int registerId) {
