@@ -10,5 +10,6 @@
 		<module>energy-processor</module>
 		<module>energy-eureka-server</module>
 		<module>energy-zipkin-server</module>
+		<module>energy-sink</module>
 	</modules>
 </project>

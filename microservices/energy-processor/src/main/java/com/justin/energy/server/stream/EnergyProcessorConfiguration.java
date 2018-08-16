@@ -27,7 +27,7 @@ import com.justin.energy.server.stream.dto.device.RegisterDto;
 public class EnergyProcessorConfiguration {
 
   @Transformer(inputChannel = Processor.INPUT, outputChannel = Processor.OUTPUT)
-  @NewSpan("transform")
+  @NewSpan("transformToStream")
   public Map<String, Object> transform(
       @SpanTag(key = "gatewayId", expression = "gatewayId") final GatewayUsageDto gatewayUsages) {
     final Map<String, Object> usages = new HashMap<>();
