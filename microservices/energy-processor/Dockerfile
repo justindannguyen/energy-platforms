@@ -1,5 +1,5 @@
 FROM openjdk:8-jre
-MAINTAINER Justin Nguyen <tuan3.nguyen@gmail.com>
+LABEL maintainer Justin Nguyen <tuan3.nguyen@gmail.com>
 
 ENTRYPOINT ["/usr/bin/java", "-jar", "/usr/share/energy/processor.jar"]
 

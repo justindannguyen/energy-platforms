@@ -1,12 +1,6 @@
 # Eureka server
 
 ## Environment Configurations
-### Web port
-If not set then use default value ```8761```
-```
-export PORT=?
-```
-
 ## Build
 Build at local
 ```
@@ -28,3 +22,5 @@ services:
     ports:
       - "8761:8761"
 ```
+
+Then access by using ```http://localhost:8761```
