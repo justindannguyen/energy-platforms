@@ -36,7 +36,7 @@ public class EnergyProcessorConfiguration {
     return gatewayUsages.getMeterUsages().stream().map(this::parseMeterUsage).map(meterUsage -> {
       meterUsage.put("gatewayId", gatewayUsages.getGatewayId());
       // FIXME retrieve date from device.
-      meterUsage.put("date", currentDate);
+      meterUsage.put("date", currentDate.getTime());
       return meterUsage;
     }).collect(Collectors.toList());
   }

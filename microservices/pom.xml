@@ -11,5 +11,6 @@
 		<module>energy-eureka-server</module>
 		<module>energy-zipkin-server</module>
 		<module>energy-sink</module>
+		<module>energy-raw-data</module>
 	</modules>
 </project>

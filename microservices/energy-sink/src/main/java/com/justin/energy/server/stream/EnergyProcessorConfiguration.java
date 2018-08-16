@@ -3,6 +3,8 @@
  */
 package com.justin.energy.server.stream;
 
+import java.sql.Date;
+
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.sleuth.annotation.NewSpan;
@@ -23,6 +25,8 @@ public class EnergyProcessorConfiguration {
   @NewSpan("sinkToDB")
   public void sink(final String gatewayUsages) {
     final Document doc = Document.parse(gatewayUsages);
+    // Device sent as long in ms, now convert it to date object
+    doc.replace("date", new Date(doc.getLong("date")));
     mongoTemplate.insert(doc, "energy");
   }
 }
