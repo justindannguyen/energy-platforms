@@ -2,6 +2,6 @@
 Provide the energy reading for all kind of meters which have modbus RTU support.
 
 ## Components
-[Device Software](energy-gateway/README.md)
+[Device Software](gateway/README.md)
 
-[Cloud Software](energy-microservices/README.md)
+[Cloud Software](microservices/README.md)
