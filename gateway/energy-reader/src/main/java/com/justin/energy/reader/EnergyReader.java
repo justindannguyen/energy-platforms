@@ -27,9 +27,9 @@ import com.intelligt.modbus.jlibmodbus.exception.ModbusIOException;
 import com.intelligt.modbus.jlibmodbus.serial.SerialPortException;
 import com.justin.energy.common.config.LocalStorage;
 import com.justin.energy.common.dto.DeviceStatusDto;
-import com.justin.energy.common.dto.RegisterDto;
 import com.justin.energy.common.dto.GatewayUsageDto;
 import com.justin.energy.common.dto.MeterUsageDto;
+import com.justin.energy.common.dto.RegisterDto;
 import com.justin.energy.common.exception.ShutdownException;
 import com.justin.energy.common.exception.StartupException;
 import com.justin.energy.reader.config.ApplicationProperties;
@@ -132,7 +132,7 @@ public class EnergyReader implements Runnable {
      */
     private boolean sendToServer(final GatewayUsageDto gatewayUsage) {
       final String topic = properties.getEnergyReportTopic();
-      if (kafkaClient.publish(topic, gatewayUsage)) {
+      if (kafkaClient.publish(topic, gatewayId, gatewayUsage)) {
         Logger.info("Energy reading (gateway {}, samples count {}) are uploaded to cloud",
             gatewayUsage.getGatewayId(), gatewayUsage.getMeterUsages().size());
         return true;
@@ -359,7 +359,7 @@ public class EnergyReader implements Runnable {
       status.setLastKafkaError(kafkaClient.getCurrentException().getMessage());
     }
     final String topic = properties.getDeviceStatusTopic();
-    if (kafkaClient.publish(topic, status)) {
+    if (kafkaClient.publish(topic, gatewayId, status)) {
       Logger.info("Device status are sent to cloud");
     }
   }
