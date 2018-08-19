@@ -22,7 +22,7 @@ public class EnergyProcessorConfiguration {
   private MongoTemplate mongoTemplate;
 
   @StreamListener(Sink.INPUT)
-  @NewSpan("sinkToDB")
+  @NewSpan("sinkEnergyDataToDb")
   public void sink(final String gatewayUsages) {
     final Document doc = Document.parse(gatewayUsages);
     // Device sent as long in ms, now convert it to date object

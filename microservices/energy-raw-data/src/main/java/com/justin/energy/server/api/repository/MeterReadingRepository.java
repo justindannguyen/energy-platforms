@@ -20,6 +20,9 @@ public interface MeterReadingRepository extends MongoRepository<MeterReadingEnti
   Page<MeterReadingEntity> findByGatewayIdAndDateBetween(Pageable pageable, String gatewayId,
       Date from, Date to);
 
+  Page<MeterReadingEntity> findByGatewayIdAndMeterId(Pageable pageable, String gatewayId,
+      int meterId);
+
   Page<MeterReadingEntity> findByGatewayIdAndMeterIdAndDateBetween(Pageable pageable,
       String gatewayId, int meterId, Date from, Date to);
 }

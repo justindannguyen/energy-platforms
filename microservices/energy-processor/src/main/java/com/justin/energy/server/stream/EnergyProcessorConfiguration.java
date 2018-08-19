@@ -29,7 +29,7 @@ import com.justin.energy.server.stream.dto.device.RegisterDto;
 public class EnergyProcessorConfiguration {
 
   @Splitter(inputChannel = Processor.INPUT, outputChannel = Processor.OUTPUT)
-  @NewSpan("transformToStream")
+  @NewSpan("transformRawToEnergyData")
   public List<Map<String, Object>> transform(
       @SpanTag(key = "gatewayId", expression = "gatewayId") final GatewayUsageDto gatewayUsages) {
     final Date currentDate = new Date();
@@ -94,11 +94,13 @@ public class EnergyProcessorConfiguration {
   private Map<String, Object> parseMeterUsage(final MeterUsageDto meterUsage) {
     final Map<String, Object> usages = new HashMap<>();
     usages.put("meterId", meterUsage.getMeterId());
-    usages.putAll(meterUsage.getEnergyUsages().stream().map(this::parseEnergyParameters)
-        .reduce(new HashMap<String, Object>(), (param1, param2) -> {
-          param1.putAll(param2);
-          return param1;
-        }));
+    usages.putAll(meterUsage.getEnergyUsages()
+                            .stream()
+                            .map(this::parseEnergyParameters)
+                            .reduce(new HashMap<String, Object>(), (param1, param2) -> {
+                              param1.putAll(param2);
+                              return param1;
+                            }));
     return usages;
   }
 }
