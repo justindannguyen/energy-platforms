@@ -12,5 +12,6 @@
 		<module>energy-zipkin-server</module>
 		<module>energy-sink</module>
 		<module>energy-raw-data</module>
+		<module>energy-hour-aggregation</module>
 	</modules>
 </project>
