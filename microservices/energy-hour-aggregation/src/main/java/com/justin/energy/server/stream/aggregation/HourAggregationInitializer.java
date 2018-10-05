@@ -10,7 +10,7 @@ import com.justin.energy.server.stream.aggregation.dto.AggregatedHourDto;
 /**
  * @author tuan3.nguyen@gmail.com
  */
-public class HouAggregationInitializer implements Initializer<AggregatedHourDto> {
+public class HourAggregationInitializer implements Initializer<AggregatedHourDto> {
   @Override
   public AggregatedHourDto apply() {
     return new AggregatedHourDto();

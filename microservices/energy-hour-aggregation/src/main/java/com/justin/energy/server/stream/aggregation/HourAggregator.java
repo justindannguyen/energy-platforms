@@ -55,32 +55,36 @@ public class HourAggregator implements Aggregator<String, String, AggregatedHour
   private void aggregateCurrentProperties(final AggregatedHourDto aggregation,
       final InputDto inputDto) {
     final Float ca = inputDto.getCa();
-    if (aggregation.getMaxCa() == null || ca > aggregation.getMaxCa()) {
-      aggregation.setMaxCa(ca);
-    }
-    if (aggregation.getMinCa() == null || ca < aggregation.getMinCa()) {
-      aggregation.setMinCa(ca);
-    }
-    if (aggregation.getAverageCa() == null) {
-      aggregation.setAverageCa(ca);
-    } else {
-      aggregation.setAverageCa((aggregation.getAverageCa() + ca) / 2);
+    if (ca != null) {
+      if (aggregation.getMaxCa() == null || ca > aggregation.getMaxCa()) {
+        aggregation.setMaxCa(ca);
+      }
+      if (aggregation.getMinCa() == null || ca < aggregation.getMinCa()) {
+        aggregation.setMinCa(ca);
+      }
+      if (aggregation.getAverageCa() == null) {
+        aggregation.setAverageCa(ca);
+      } else {
+        aggregation.setAverageCa((aggregation.getAverageCa() + ca) / 2);
+      }
     }
   }
 
   private void aggregateVoltageProperties(final AggregatedHourDto aggregation,
       final InputDto inputDto) {
     final Float va = inputDto.getVa();
-    if (aggregation.getMaxVa() == null || va > aggregation.getMaxVa()) {
-      aggregation.setMaxVa(va);
-    }
-    if (aggregation.getMinVa() == null || va < aggregation.getMinVa()) {
-      aggregation.setMinVa(va);
-    }
-    if (aggregation.getAverageVa() == null) {
-      aggregation.setAverageVa(va);
-    } else {
-      aggregation.setAverageVa((aggregation.getAverageVa() + va) / 2);
+    if (va != null) {
+      if (aggregation.getMaxVa() == null || va > aggregation.getMaxVa()) {
+        aggregation.setMaxVa(va);
+      }
+      if (aggregation.getMinVa() == null || va < aggregation.getMinVa()) {
+        aggregation.setMinVa(va);
+      }
+      if (aggregation.getAverageVa() == null) {
+        aggregation.setAverageVa(va);
+      } else {
+        aggregation.setAverageVa((aggregation.getAverageVa() + va) / 2);
+      }
     }
   }
 }

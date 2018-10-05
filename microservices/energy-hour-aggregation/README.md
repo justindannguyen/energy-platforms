@@ -31,6 +31,17 @@ If not set then use default value ```energysolution_parsedreading```
 export ENERGY_OUTPUT_TOPIC=?
 ```
 
+### Sink consumer group
+If not set then use default value ```energy-hour-aggregation-sink```
+```
+export ENEGY_HA_CONSUMER_GROUP = ?
+```
+### MongoDB Sink configuration
+If not set then use default value ```mongodb://localhost:27017/energy``` 
+```
+export MONGODB_SERVER_URI=?
+```
+
 ## Build
 Build at local
 ```
