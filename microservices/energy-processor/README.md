@@ -1,4 +1,4 @@
-# Transform Raw Energy into Stream
+# Transform Raw Energy into Stream and Sink
 
 ## Environment Configurations
 ### Eureka configuration
@@ -35,6 +35,12 @@ export BROKERS=?
 If not set then use default value ```energysolution_parsedreading``` 
 ```
 export ENERGY_OUTPUT_TOPIC=?
+```
+
+### MongoDB configuration
+If not set then use default value ```mongodb://localhost:27017/energy``` 
+```
+export MONGODB_SERVER_URI=?
 ```
 
 ## Build
