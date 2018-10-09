@@ -13,10 +13,16 @@ If not set then use default value ```energysolution_rawreading```
 export ENERGY_INPUT_TOPIC=?
 ```
 
-### Kafka Consumer group
+### Kafka Consumer group, raw
 If not set then use default value ```energy-processor``` 
 ```
 export ENEGY_CONSUMER_GROUP=?
+```
+
+### Kafka Consumer group, sink
+If not set then use default value ```energy-sink``` 
+```
+export ENEGY_SINK_GROUP=?
 ```
 
 ### Kafka Server

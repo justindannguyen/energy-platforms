@@ -10,10 +10,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.bson.Document;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.sleuth.annotation.NewSpan;
 import org.springframework.cloud.sleuth.annotation.SpanTag;
 import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.cloud.stream.messaging.Processor;
+import org.springframework.cloud.stream.annotation.StreamListener;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.integration.annotation.Splitter;
 
 import com.justin.energy.server.stream.dto.cloud.RegisterDefinitionDto;
@@ -25,10 +28,22 @@ import com.justin.energy.server.stream.dto.device.RegisterDto;
 /**
  * @author tuan3.nguyen@gmail.com
  */
-@EnableBinding(Processor.class)
+@EnableBinding(EnergyProcessor.class)
 public class EnergyProcessorConfiguration {
 
-  @Splitter(inputChannel = Processor.INPUT, outputChannel = Processor.OUTPUT)
+  @Autowired
+  private MongoTemplate mongoTemplate;
+
+  @StreamListener(EnergyProcessor.SINK_INPUT)
+  @NewSpan("sinkEnergyDataToDb")
+  public void sink(final String gatewayUsages) {
+    final Document doc = Document.parse(gatewayUsages);
+    // Device sent as long in ms, now convert it to date object
+    doc.replace("date", new Date(doc.getLong("date")));
+    mongoTemplate.insert(doc, "energy");
+  }
+
+  @Splitter(inputChannel = EnergyProcessor.INPUT, outputChannel = EnergyProcessor.OUTPUT)
   @NewSpan("transformRawToEnergyData")
   public List<Map<String, Object>> transform(
       @SpanTag(key = "gatewayId", expression = "gatewayId") final GatewayUsageDto gatewayUsages) {
