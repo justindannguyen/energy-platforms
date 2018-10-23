@@ -13,8 +13,8 @@ import com.justin.energy.server.api.Constants;
 /**
  * @author tuan3.nguyen@gmail.com
  */
-@Document(collection = Constants.ENERGY_RAW_COLLECTION)
-public class MeterReadingEntity {
+@Document(collection = Constants.ENERGY_BY_DAY_COLLECTION)
+public class DayAggregationEntity {
   @Id
   private String id;
 
@@ -24,7 +24,9 @@ public class MeterReadingEntity {
 
   private Date date;
 
-  private Float va;
+  private Float minVa;
+
+  private Float maxVa;
 
   public Date getDate() {
     return date;
@@ -38,12 +40,16 @@ public class MeterReadingEntity {
     return id;
   }
 
+  public Float getMaxVa() {
+    return maxVa;
+  }
+
   public int getMeterId() {
     return meterId;
   }
 
-  public Float getVa() {
-    return va;
+  public Float getMinVa() {
+    return minVa;
   }
 
   public void setDate(final Date date) {
@@ -58,11 +64,15 @@ public class MeterReadingEntity {
     this.id = id;
   }
 
+  public void setMaxVa(final Float maxVa) {
+    this.maxVa = maxVa;
+  }
+
   public void setMeterId(final int meterId) {
     this.meterId = meterId;
   }
 
-  public void setVa(final Float va) {
-    this.va = va;
+  public void setMinVa(final Float minVa) {
+    this.minVa = minVa;
   }
 }

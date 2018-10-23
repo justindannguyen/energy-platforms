@@ -4,6 +4,7 @@
 package com.justin.energy.server.api.controller;
 
 import java.util.Date;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.sleuth.annotation.SpanTag;
@@ -19,21 +20,39 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.justin.energy.server.api.entity.MeterReadingEntity;
-import com.justin.energy.server.api.repository.MeterReadingRepository;
+import com.justin.energy.server.api.entity.HourAggregationEntity;
+import com.justin.energy.server.api.repository.HourAggregationRepository;
+import com.justin.energy.server.api.service.HourAggregationService;
 
 /**
  * @author tuan3.nguyen@gmail.com
  */
 @RestController()
-@RequestMapping("/api/v1/raw-energy")
-public class MeterReadingController {
+@RequestMapping("/api/v1/haggregated-energy")
+public class HourAggregationController {
   @Autowired
-  private MeterReadingRepository meterReadingRepository;
+  private HourAggregationRepository hourAggregationRepository;
+
+  @Autowired
+  private HourAggregationService hourAggregationService;
+
+  @GetMapping("byHour/{gatewayId}/{meterId}")
+  @ResponseBody
+  public HourAggregationEntity getEnergyByHour(@PathVariable final String gatewayId,
+      @PathVariable final int meterId, @SpanTag(key = "date") @RequestParam(
+          name = "date") @DateTimeFormat(iso = ISO.DATE_TIME) final Date date) {
+    final HourAggregationEntity energy =
+        hourAggregationService.findByGatewayIdAndMeterIdAndDate(gatewayId, meterId, date);
+    if (energy == null) {
+      throw new NoSuchElementException(String.format(
+          "No energy data on hour of %s for (gateway %s, meter %s)", date, gatewayId, meterId));
+    }
+    return energy;
+  }
 
   @GetMapping("{gatewayId}/{meterId}")
   @ResponseBody
-  public Page<MeterReadingEntity> getEnergy(@PathVariable final String gatewayId,
+  public Page<HourAggregationEntity> getEnergyByHourBetween(@PathVariable final String gatewayId,
       @PathVariable final int meterId,
       @SpanTag(key = "from") @RequestParam(name = "from") @DateTimeFormat(
           iso = ISO.DATE_TIME) final Date from,
@@ -42,9 +61,9 @@ public class MeterReadingController {
       @SpanTag(key = "pageNumber") @RequestParam(name = "pageNumber", required = false,
           defaultValue = "1") final Integer pageNumber,
       @SpanTag(key = "pageSize") @RequestParam(name = "pageSize", required = false,
-          defaultValue = "100") final Integer pageSize) {
+          defaultValue = "24") final Integer pageSize) {
     final Pageable pageable = PageRequest.of(pageNumber, pageSize);
-    return meterReadingRepository.findByGatewayIdAndMeterIdAndDateBetween(pageable, gatewayId,
+    return hourAggregationRepository.findByGatewayIdAndMeterIdAndDateBetween(pageable, gatewayId,
         meterId, from, to);
   }
 }

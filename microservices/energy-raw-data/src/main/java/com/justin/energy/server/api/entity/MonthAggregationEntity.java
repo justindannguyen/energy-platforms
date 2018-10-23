@@ -3,8 +3,6 @@
  */
 package com.justin.energy.server.api.entity;
 
-import java.util.Date;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -13,8 +11,8 @@ import com.justin.energy.server.api.Constants;
 /**
  * @author tuan3.nguyen@gmail.com
  */
-@Document(collection = Constants.ENERGY_RAW_COLLECTION)
-public class MeterReadingEntity {
+@Document(collection = Constants.ENERGY_BY_MONTH_COLLECTION)
+public class MonthAggregationEntity {
   @Id
   private String id;
 
@@ -22,13 +20,11 @@ public class MeterReadingEntity {
 
   private int meterId;
 
-  private Date date;
+  private String month;
 
-  private Float va;
+  private Float minVa;
 
-  public Date getDate() {
-    return date;
-  }
+  private Float maxVa;
 
   public String getGatewayId() {
     return gatewayId;
@@ -38,16 +34,20 @@ public class MeterReadingEntity {
     return id;
   }
 
+  public Float getMaxVa() {
+    return maxVa;
+  }
+
   public int getMeterId() {
     return meterId;
   }
 
-  public Float getVa() {
-    return va;
+  public Float getMinVa() {
+    return minVa;
   }
 
-  public void setDate(final Date date) {
-    this.date = date;
+  public String getMonth() {
+    return month;
   }
 
   public void setGatewayId(final String gatewayId) {
@@ -58,11 +58,19 @@ public class MeterReadingEntity {
     this.id = id;
   }
 
+  public void setMaxVa(final Float maxVa) {
+    this.maxVa = maxVa;
+  }
+
   public void setMeterId(final int meterId) {
     this.meterId = meterId;
   }
 
-  public void setVa(final Float va) {
-    this.va = va;
+  public void setMinVa(final Float minVa) {
+    this.minVa = minVa;
+  }
+
+  public void setMonth(final String month) {
+    this.month = month;
   }
 }

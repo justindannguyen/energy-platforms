@@ -5,10 +5,10 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.justin</groupId>
-	<artifactId>energy-raw-data</artifactId>
+	<artifactId>energy-data</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>energy-raw-data</name>
+	<name>Energy Data</name>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
