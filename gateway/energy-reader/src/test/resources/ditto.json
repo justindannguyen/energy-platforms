@@ -1,0 +1,199 @@
+{
+    "thingId": "com.bosch.rbvh.energy:gateway_1",
+    "policyId": "com.bosch.rbvh.energy:gateway_1",
+    "attributes": {
+        "type": "GW",
+        "name": "Energy Gateway phyBoard",
+        "manufacturer": "PHYTEC",
+        "macAddress": "AABBCCDDEEFF"
+    },
+    "features": {
+        "configurations": {
+            "properties": {
+                "modbus": {
+                    "baudRate": 38400,
+                    "dataBits": 8,
+                    "parity": "EVEN",
+                    "stopBits": 1,
+                    "serialPort": "/dev/ttyO1",
+                },
+                "reportIntervalInSecond": {
+                    "sampling": 1,
+                    "deviceStatus": 3600,
+                    "samplingUpload": 0,
+                },
+                "ingestion": {
+                    "serverUri": "192.168.1.11:9092",
+                    "type": "mqtt",
+                    "tls": false,
+                    "username": "username",
+                    "password": "password"
+                },
+                "registers": [
+                    {
+                        "offset": 3084,
+                        "quantity": 2,
+                        "symbol": "pfavg",
+                        "type": "POWER_FACTOR",
+                        "unit": ""
+                    },
+                    {
+                        "offset": 3036,
+                        "quantity": 2,
+                        "symbol": "vavg",
+                        "type": "FLOAT32",
+                        "unit": "V"
+                    },
+                    {
+                        "offset": 3010,
+                        "quantity": 2,
+                        "symbol": "iavg",
+                        "type": "FLOAT32",
+                        "unit": "A"
+                    },
+                    {
+                        "offset": 3110,
+                        "quantity": 2,
+                        "symbol": "freg",
+                        "type": "FLOAT32",
+                        "unit": "Hz"
+                    },
+                    {
+                        "offset": 3028,
+                        "quantity": 2,
+                        "symbol": "va",
+                        "type": "FLOAT32",
+                        "unit": "V"
+                    },
+                    {
+                        "offset": 3030,
+                        "quantity": 2,
+                        "symbol": "vb",
+                        "type": "FLOAT32",
+                        "unit": "V"
+                    },
+                    {
+                        "offset": 3032,
+                        "quantity": 2,
+                        "symbol": "vc",
+                        "type": "FLOAT32",
+                        "unit": "V"
+                    },
+                    {
+                        "offset": 3000,
+                        "quantity": 2,
+                        "symbol": "ia",
+                        "type": "FLOAT32",
+                        "unit": "A"
+                    },
+                    {
+                        "offset": 3002,
+                        "quantity": 2,
+                        "symbol": "ib",
+                        "type": "FLOAT32",
+                        "unit": "A"
+                    },
+                    {
+                        "offset": 3004,
+                        "quantity": 2,
+                        "symbol": "ic",
+                        "type": "FLOAT32",
+                        "unit": "A"
+                    },
+                    {
+                        "offset": 3078,
+                        "quantity": 2,
+                        "symbol": "pfa",
+                        "type": "POWER_FACTOR",
+                        "unit": ""
+                    },
+                    {
+                        "offset": 3080,
+                        "quantity": 2,
+                        "symbol": "pfb",
+                        "type": "POWER_FACTOR",
+                        "unit": ""
+                    },
+                    {
+                        "offset": 3082,
+                        "quantity": 2,
+                        "symbol": "pfc",
+                        "type": "POWER_FACTOR",
+                        "unit": ""
+                    },
+                    {
+                        "offset": 3060,
+                        "quantity": 2,
+                        "symbol": "pow",
+                        "type": "FLOAT32",
+                        "unit": "kW"
+                    },
+                    {
+                        "offset": 2700,
+                        "quantity": 2,
+                        "symbol": "etotal",
+                        "type": "FLOAT32",
+                        "unit": "kWh"
+                    }
+                ]
+            }
+        },
+        "meters": {
+            "properties": {
+                "configurations": [
+                    {
+                        "modbusId": 1
+                    },
+                    {
+                        "modbusId": 2
+                    }
+                ],
+                "1": {
+                    "date": 1540462706721,
+                    "pow": 0,
+                    "pfavg": 0,
+                    "pfa": 0,
+                    "va": 0,
+                    "vavg": 0,
+                    "vb": 0,
+                    "pfc": 0,
+                    "vc": 0,
+                    "pfb": 0,
+                    "ia": 0.18738297,
+                    "ib": 0,
+                    "ic": 0,
+                    "iavg": 0,
+                    "etotal": 7.737,
+                    "freg": 0
+                },
+                "2": {
+                    "date": 1540462706721,
+                    "pow": 0,
+                    "pfavg": 0,
+                    "pfa": 0,
+                    "va": 0,
+                    "vavg": 0,
+                    "vb": 0,
+                    "pfc": 0,
+                    "vc": 0,
+                    "pfb": 0,
+                    "ia": 0.18738297,
+                    "ib": 0,
+                    "ic": 0,
+                    "iavg": 0,
+                    "etotal": 7.737,
+                    "freg": 0
+                }
+            }
+        },
+        "deviceStatus": {
+            "properties": {
+                "swVersion":"1.0.0",
+                "flashUsage": 0,
+                "sdCardUsage": 0,
+                "ram": 0,
+                "cpu": 0
+            }
+        }
+    }
+}
